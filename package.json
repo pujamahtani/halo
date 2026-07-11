@@ -1,0 +1,72 @@
+{
+  "name": "@pujamahtani/halo",
+  "version": "0.1.0",
+  "description": "A trust layer for AI interfaces. React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Puja Mahtani (https://pujamahtani.com)",
+  "homepage": "https://pujamahtani.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pujamahtani/halo"
+  },
+  "keywords": [
+    "react",
+    "ai",
+    "ai-ux",
+    "agent",
+    "agentic",
+    "trust",
+    "human-in-the-loop",
+    "design-system",
+    "components",
+    "confidence",
+    "citations",
+    "approval",
+    "audit-log"
+  ],
+  "sideEffects": false,
+  "main": "./dist/halo.cjs",
+  "module": "./dist/halo.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/halo.js",
+      "require": "./dist/halo.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "prepublishOnly": "npm run build:lib",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "class-variance-authority": "^0.7.1",
+    "oxlint": "^1.71.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1",
+    "vite-plugin-dts": "^5.0.3"
+  }
+}
