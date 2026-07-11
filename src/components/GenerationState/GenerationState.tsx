@@ -104,6 +104,7 @@ export function GenerationState({
       {onRetry && (
         <button
           type="button"
+          className="halo-btn"
           onClick={onRetry}
           style={{
             flexShrink: 0,

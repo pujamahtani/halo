@@ -69,6 +69,7 @@ export function AutonomyControl({
             <button
               key={level.id}
               type="button"
+              className="halo-btn"
               role="radio"
               aria-checked={selected}
               disabled={disabled}

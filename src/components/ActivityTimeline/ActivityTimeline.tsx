@@ -108,6 +108,7 @@ export function ActivityTimeline({ entries, onUndo, undoLabel = "Undo", classNam
                 {entry.undoable && status !== "undone" && status !== "failed" && (
                   <button
                     type="button"
+                    className="halo-btn"
                     onClick={() => onUndo?.(entry.id)}
                     style={{
                       flexShrink: 0,

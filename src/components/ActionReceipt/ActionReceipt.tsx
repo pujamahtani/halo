@@ -113,6 +113,7 @@ export function ActionReceipt({
             {undoable && !undone && (
               <button
                 type="button"
+                className="halo-btn"
                 onClick={onUndo}
                 style={{
                   flexShrink: 0,

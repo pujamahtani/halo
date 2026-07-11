@@ -1,4 +1,25 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
+
+// Minimal interaction styles injected once at runtime, so consumers still
+// import no stylesheet. Buttons tagged `halo-btn` get consistent hover/press
+// feedback; keyboard focus keeps the browser's default focus ring.
+const BASE_STYLE_ID = "halo-base-styles";
+const BASE_CSS = `
+.halo-btn{transition:opacity .12s ease}
+.halo-btn:hover{opacity:.82}
+.halo-btn:active{opacity:.66}
+.halo-btn:disabled{opacity:.5;cursor:default}
+`;
+
+function useBaseStyles() {
+  useEffect(() => {
+    if (typeof document === "undefined" || document.getElementById(BASE_STYLE_ID)) return;
+    const el = document.createElement("style");
+    el.id = BASE_STYLE_ID;
+    el.textContent = BASE_CSS;
+    document.head.appendChild(el);
+  }, []);
+}
 
 export interface HaloTheme {
   colors: {
@@ -59,6 +80,8 @@ export function HaloProvider({
   theme?: Partial<HaloTheme>;
   children: ReactNode;
 }) {
+  useBaseStyles();
+
   const merged: HaloTheme = {
     colors: { ...defaultTheme.colors, ...theme?.colors },
     radius: { ...defaultTheme.radius, ...theme?.radius },

@@ -216,6 +216,7 @@ export function ApprovalGate({
             {onModify && (
               <button
                 type="button"
+                className="halo-btn"
                 onClick={onModify}
                 style={{
                   marginRight: "auto",
@@ -234,6 +235,7 @@ export function ApprovalGate({
             )}
             <button
               type="button"
+              className="halo-btn"
               onClick={onReject}
               style={{
                 fontSize: "13px",
@@ -251,6 +253,7 @@ export function ApprovalGate({
             </button>
             <button
               type="button"
+              className="halo-btn"
               onClick={onApprove}
               style={{
                 fontSize: "13px",
