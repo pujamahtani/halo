@@ -39,6 +39,7 @@ export function GenerationState({
           {text}
           <span
             aria-hidden="true"
+            className="halo-anim"
             style={{
               display: "inline-block",
               width: "2px",
@@ -66,6 +67,7 @@ export function GenerationState({
         {Array.from({ length: lines }).map((_, i) => (
           <div
             key={i}
+            className="halo-anim"
             style={{
               height: "11px",
               width: i === lines - 1 ? "62%" : "100%",

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -34,8 +35,39 @@ export function AutonomyControl({
   className,
 }: AutonomyControlProps) {
   const theme = useHaloTheme();
+  const groupRef = useRef<HTMLDivElement>(null);
   const activeIndex = Math.max(0, levels.findIndex((l) => l.id === value));
   const active = levels[activeIndex] ?? levels[0];
+
+  const moveTo = (index: number) => {
+    if (disabled) return;
+    const next = (index + levels.length) % levels.length;
+    onChange?.(levels[next].id);
+    groupRef.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[next]?.focus();
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        moveTo(activeIndex + 1);
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        moveTo(activeIndex - 1);
+        break;
+      case "Home":
+        e.preventDefault();
+        moveTo(0);
+        break;
+      case "End":
+        e.preventDefault();
+        moveTo(levels.length - 1);
+        break;
+    }
+  };
 
   return (
     <div
@@ -52,8 +84,10 @@ export function AutonomyControl({
       </div>
 
       <div
+        ref={groupRef}
         role="radiogroup"
         aria-label={label}
+        onKeyDown={onKeyDown}
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${levels.length}, 1fr)`,
@@ -72,6 +106,7 @@ export function AutonomyControl({
               className="halo-btn"
               role="radio"
               aria-checked={selected}
+              tabIndex={selected ? 0 : -1}
               disabled={disabled}
               onClick={() => !disabled && onChange?.(level.id)}
               style={{

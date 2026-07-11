@@ -41,6 +41,7 @@ export function AgentStatus({ state, label, elapsed, variant = "row", className 
     <span style={{ position: "relative", display: "inline-flex", width: "8px", height: "8px", flexShrink: 0 }}>
       {meta.pulse && (
         <span
+          className="halo-anim"
           style={{
             position: "absolute",
             inset: 0,

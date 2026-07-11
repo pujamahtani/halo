@@ -9,6 +9,10 @@ const BASE_CSS = `
 .halo-btn:hover{opacity:.82}
 .halo-btn:active{opacity:.66}
 .halo-btn:disabled{opacity:.5;cursor:default}
+@media (prefers-reduced-motion: reduce){
+.halo-anim{animation:none !important}
+.halo-btn{transition:none}
+}
 `;
 
 function useBaseStyles() {

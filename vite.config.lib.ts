@@ -27,6 +27,10 @@ export default defineConfig({
     rollupOptions: {
       external: ["react", "react-dom", "react/jsx-runtime"],
       output: {
+        // Every component uses React context/state, so the whole library is
+        // client-side. This banner makes it safe to import from a Next.js
+        // App Router Server Component without a hard RSC error.
+        banner: '"use client";',
         globals: { react: "React", "react-dom": "ReactDOM" },
       },
     },
