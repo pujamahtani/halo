@@ -61,8 +61,8 @@ function InlineDiffVariant({
                 key={i}
                 style={{
                   textDecoration: "line-through",
-                  color: "#dc2626",
-                  backgroundColor: "#fef2f2",
+                  color: theme.colors.error,
+                  backgroundColor: `${theme.colors.error}14`,
                   padding: "1px 2px",
                   borderRadius: "2px",
                 }}
@@ -75,8 +75,8 @@ function InlineDiffVariant({
             <span
               key={i}
               style={{
-                color: "#16a34a",
-                backgroundColor: "#f0fdf4",
+                color: theme.colors.success,
+                backgroundColor: `${theme.colors.success}14`,
                 padding: "1px 2px",
                 borderRadius: "2px",
               }}
