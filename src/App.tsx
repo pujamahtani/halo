@@ -14,6 +14,21 @@ import { GenerationState } from "./components/GenerationState/GenerationState";
 import { ActivityTimeline, type ActivityEntry } from "./components/ActivityTimeline/ActivityTimeline";
 import { CodeBlock } from "./demo/CodeBlock";
 import { SECTIONS, V2_ITEMS } from "./demo/registry";
+import { Package, Sun, Moon, LayoutGrid, Eye, Sparkles, ShieldCheck, Undo2, Rocket, ArrowLeftRight, Network, Gauge, Smartphone } from "lucide-react";
+
+const PILLAR_ICONS: Record<string, typeof Eye> = {
+  transparency: Eye,
+  generation: Sparkles,
+  control: ShieldCheck,
+  reversibility: Undo2,
+};
+
+const V2_ICONS: Record<string, typeof Eye> = {
+  "HandoffState": ArrowLeftRight,
+  "Multi-agent coordination": Network,
+  "Observability dashboard": Gauge,
+  "Mobile & voice": Smartphone,
+};
 
 const GITHUB_URL = "https://github.com/pujamahtani/halo";
 const NPM_URL = "https://www.npmjs.com/package/@pujamahtani/halo";
@@ -187,10 +202,20 @@ function Logo({ size = 26 }: { size?: number }) {
   );
 }
 
+// GitHub's logo is a brand mark, which Lucide no longer ships, so it stays a
+// single custom SVG (kept visually consistent with the Lucide set around it).
+function GithubMark({ size = 15 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  );
+}
+
 function TopBarLink({ href, children }: { href: string; children: ReactNode }) {
   const theme = useHaloTheme();
   return (
-    <a href={href} target="_blank" rel="noreferrer" style={{ fontSize: "13px", color: theme.colors.textSecondary, textDecoration: "none", fontWeight: 500 }}>
+    <a href={href} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "13px", color: theme.colors.textSecondary, textDecoration: "none", fontWeight: 500 }}>
       {children}
     </a>
   );
@@ -211,16 +236,7 @@ function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }
         color: theme.colors.textSecondary, cursor: "pointer",
       }}
     >
-      {dark ? (
-        <svg width={15} height={15} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="1.6" />
-          <path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      ) : (
-        <svg width={15} height={15} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M20 14.5A8 8 0 019.5 4a7 7 0 108.5 10.5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-        </svg>
-      )}
+      {dark ? <Sun size={15} strokeWidth={1.75} /> : <Moon size={15} strokeWidth={1.75} />}
     </button>
   );
 }
@@ -312,8 +328,8 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             <span style={{ fontSize: "11px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 7px", marginLeft: "2px" }}>v0.1</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-            <TopBarLink href={GITHUB_URL}>GitHub</TopBarLink>
-            <TopBarLink href={NPM_URL}>npm</TopBarLink>
+            <TopBarLink href={GITHUB_URL}><GithubMark size={15} />GitHub</TopBarLink>
+            <TopBarLink href={NPM_URL}><Package size={15} strokeWidth={1.75} />npm</TopBarLink>
             <ThemeToggle dark={dark} onToggle={onToggle} />
           </div>
         </div>
@@ -336,18 +352,11 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             </div>
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
-                <svg width={15} height={15} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z" />
-                </svg>
+                <GithubMark size={15} />
                 View on GitHub
               </a>
               <a href="#confidence" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
-                <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
+                <LayoutGrid size={14} strokeWidth={1.9} />
                 Browse components
               </a>
             </div>
@@ -379,7 +388,10 @@ export function App() {
           {SECTIONS.map((section) => (
             <div key={section.id}>
               <div style={{ margin: "0 0 24px", paddingTop: "8px" }}>
-                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>{section.label}</h2>
+                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em", display: "flex", alignItems: "center", gap: "9px" }}>
+                  {(() => { const Icon = PILLAR_ICONS[section.id] ?? Eye; return <Icon size={19} strokeWidth={1.75} color={theme.colors.textSecondary} />; })()}
+                  {section.label}
+                </h2>
                 <p style={{ margin: 0, fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "520px" }}>{section.blurb}</p>
               </div>
 
@@ -396,19 +408,24 @@ export function App() {
 
           {/* v2 teaser */}
           <section style={{ marginTop: "24px", padding: "28px", borderRadius: theme.radius.lg, border: `1px dashed ${theme.colors.borderStrong}`, backgroundColor: theme.colors.surface }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "6px" }}>
+              <Rocket size={13} strokeWidth={1.75} color={theme.colors.textMuted} />
               <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
             </div>
             <p style={{ margin: "0 0 20px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6, maxWidth: "520px" }}>
               v1 covers a single agent working alongside one person. Next comes the harder part: many agents at once, and the people who have to supervise them at scale.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px" }}>
-              {V2_ITEMS.map((item) => (
-                <div key={item.name} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}` }}>
-                  <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
-                  <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>
-                </div>
-              ))}
+              {V2_ITEMS.map((item) => {
+                const Icon = V2_ICONS[item.name] ?? Sparkles;
+                return (
+                  <div key={item.name} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}` }}>
+                    <Icon size={16} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "8px" }} />
+                    <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
+                    <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>
+                  </div>
+                );
+              })}
             </div>
             <p style={{ margin: "18px 0 0", fontSize: "12.5px", color: theme.colors.textMuted }}>
               Star the repo to follow along.{" "}
