@@ -75,6 +75,24 @@ export const defaultTheme: HaloTheme = {
   },
 };
 
+export const darkTheme: HaloTheme = {
+  colors: {
+    text: "#fafafa",
+    textSecondary: "#a3a3a3",
+    textMuted: "#6f6f6f",
+    background: "#0b0b0c",
+    surface: "#161618",
+    surfaceRaised: "#202023",
+    border: "#2a2a2e",
+    borderStrong: "#3a3a40",
+    success: "#4ade80",
+    warning: "#fbbf24",
+    error: "#f87171",
+  },
+  radius: { ...defaultTheme.radius },
+  font: { ...defaultTheme.font },
+};
+
 const ThemeContext = createContext<HaloTheme>(defaultTheme);
 
 export function HaloProvider({

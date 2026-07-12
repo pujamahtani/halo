@@ -11,7 +11,15 @@ export default defineConfig({
     react(),
     dts({
       include: ["src"],
-      exclude: ["src/App.tsx", "src/main.tsx"],
+      exclude: [
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/demo/**",
+        "src/test/**",
+        "src/__tests__/**",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+      ],
       insertTypesEntry: true,
       tsconfigPath: "./tsconfig.app.json",
     }),

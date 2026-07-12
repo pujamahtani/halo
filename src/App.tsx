@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { HaloProvider } from "./theme/ThemeProvider";
+import { useEffect, useState, type ReactNode } from "react";
+import { HaloProvider, useHaloTheme, defaultTheme, darkTheme } from "./theme/ThemeProvider";
 import { AIBadge } from "./components/AIBadge/AIBadge";
 import { ConfidenceIndicator } from "./components/ConfidenceIndicator/ConfidenceIndicator";
 import { SourceCitation } from "./components/SourceCitation/SourceCitation";
@@ -12,6 +12,35 @@ import { AutonomyControl } from "./components/AutonomyControl/AutonomyControl";
 import { AgentStatus } from "./components/AgentStatus/AgentStatus";
 import { GenerationState } from "./components/GenerationState/GenerationState";
 import { ActivityTimeline, type ActivityEntry } from "./components/ActivityTimeline/ActivityTimeline";
+import { CodeBlock } from "./demo/CodeBlock";
+import { SECTIONS, V2_ITEMS } from "./demo/registry";
+
+const GITHUB_URL = "https://github.com/pujamahtani/halo";
+const NPM_URL = "https://www.npmjs.com/package/@pujamahtani/halo";
+
+/* ---------- sample data ---------- */
+
+const sampleSources = [
+  { title: "Clinical Guidelines 2026", url: "#", type: "document" as const, domain: "guidelines.health.org", relevance: 0.95 },
+  { title: "Lab Results Analysis Framework", url: "#", type: "database" as const, domain: "847 records matched", relevance: 0.82 },
+  { title: "Healthcare Cost Optimization Study", url: "#", type: "research" as const, domain: "pubmed.gov", relevance: 0.71 },
+];
+
+const sampleSteps = [
+  { label: "Analyzed 24 months of patient history", status: "complete" as const, duration: 1.2 },
+  { label: "Cross-referenced 3 clinical protocols", status: "complete" as const, duration: 2.8 },
+  { label: "Evaluating cost impact...", status: "active" as const, duration: 3.1 },
+  { label: "Generate final recommendation", status: "pending" as const },
+];
+
+const initialActivity: ActivityEntry[] = [
+  { id: "a1", actor: "Billing agent", action: "repriced invoice #1043 to $1,740.00", timestamp: "2:41 PM", status: "done", undoable: true },
+  { id: "a2", actor: "Billing agent", action: "repriced invoice #1044 to $1,160.00", timestamp: "2:41 PM", status: "done", undoable: true },
+  { id: "a3", actor: "You", action: "approved the reprice batch", timestamp: "2:40 PM", status: "done" },
+  { id: "a4", actor: "Billing agent", action: "flagged invoice #1050 (missing contract)", timestamp: "2:39 PM", status: "failed" },
+];
+
+/* ---------- stateful previews ---------- */
 
 function ApprovalGateDemo() {
   const [status, setStatus] = useState<ApprovalStatus>("pending");
@@ -29,7 +58,7 @@ function ApprovalGateDemo() {
       ]}
       onApprove={() => setStatus("approved")}
       onReject={() => setStatus("rejected")}
-      onModify={() => console.log("modify")}
+      onModify={() => {}}
     />
   );
 }
@@ -39,21 +68,12 @@ function AutonomyControlDemo() {
   return <AutonomyControl value={level} onChange={setLevel} />;
 }
 
-const initialActivity: ActivityEntry[] = [
-  { id: "a1", actor: "Billing agent", action: "repriced invoice #1043 to $1,740.00", timestamp: "2:41 PM", status: "done", undoable: true },
-  { id: "a2", actor: "Billing agent", action: "repriced invoice #1044 to $1,160.00", timestamp: "2:41 PM", status: "done", undoable: true },
-  { id: "a3", actor: "You", action: "approved the reprice batch", timestamp: "2:40 PM", status: "done" },
-  { id: "a4", actor: "Billing agent", action: "flagged invoice #1050 (missing contract)", timestamp: "2:39 PM", status: "failed" },
-];
-
 function ActivityTimelineDemo() {
   const [entries, setEntries] = useState(initialActivity);
   return (
     <ActivityTimeline
       entries={entries}
-      onUndo={(id) =>
-        setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, status: "undone", undoable: false } : e)))
-      }
+      onUndo={(id) => setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, status: "undone", undoable: false } : e)))}
     />
   );
 }
@@ -77,463 +97,335 @@ function ActionReceiptDemo() {
   );
 }
 
-const sampleSources = [
-  {
-    title: "Clinical Guidelines 2026",
-    url: "#",
-    type: "document" as const,
-    domain: "guidelines.health.org",
-    relevance: 0.95,
-  },
-  {
-    title: "Lab Results Analysis Framework",
-    url: "#",
-    type: "database" as const,
-    domain: "847 records matched",
-    relevance: 0.82,
-  },
-  {
-    title: "Healthcare Cost Optimization Study",
-    url: "#",
-    type: "research" as const,
-    domain: "pubmed.gov",
-    relevance: 0.71,
-  },
-];
+function Stack({ children }: { children: ReactNode }) {
+  return <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>{children}</div>;
+}
 
-const sampleSteps = [
-  { label: "Analyzed 24 months of patient history", status: "complete" as const, duration: 1.2 },
-  { label: "Cross-referenced 3 clinical protocols", status: "complete" as const, duration: 2.8 },
-  { label: "Evaluating cost impact...", status: "active" as const, duration: 3.1 },
-  { label: "Generate final recommendation", status: "pending" as const },
-];
+function renderPreview(id: string): ReactNode {
+  switch (id) {
+    case "confidence":
+      return (
+        <Stack>
+          <ConfidenceIndicator variant="score" score={0.87} explanation="Based on 847 similar cases with statistically significant outcomes." />
+          <ConfidenceIndicator variant="dimensions" dimensions={[
+            { label: "Accuracy", score: 0.92 },
+            { label: "Relevance", score: 0.85 },
+            { label: "Completeness", score: 0.58 },
+          ]} />
+        </Stack>
+      );
+    case "sources":
+      return <SourceCitation sources={sampleSources} variant="panel" />;
+    case "reasoning":
+      return <ReasoningPanel variant="collapsed" steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))} totalDuration={7.1} defaultOpen />;
+    case "aibadge":
+      return (
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+          <AIBadge label="AI generated" processingTime={4.2} />
+          <AIBadge variant="outlined" label="AI assisted" />
+          <AIBadge variant="ghost" label="Human verified" />
+        </div>
+      );
+    case "generation-state":
+      return (
+        <Stack>
+          <GenerationState state="streaming" text="Based on the updated contract, the recommended reprice for these three invoices is" />
+          <GenerationState state="skeleton" lines={3} />
+          <GenerationState state="error" onRetry={() => {}} />
+        </Stack>
+      );
+    case "suggestion":
+      return (
+        <SuggestionCard
+          variant="diff-card"
+          before="Patient should be given Protocol A treatment per standard procedure."
+          after="Patient should receive Protocol B, which reduces treatment time by 30% based on 847 comparable cases."
+        />
+      );
+    case "response-actions":
+      return (
+        <div style={{ padding: "16px", borderRadius: "8px", border: "1px solid var(--halo-canvas-border)" }}>
+          <ResponseActions variant="bar" onAccept={() => {}} onDismiss={() => {}} onCopy={() => {}} />
+        </div>
+      );
+    case "agent-status":
+      return (
+        <Stack>
+          <AgentStatus state="working" label="Cross-referencing 3 contracts..." elapsed={12} />
+          <AgentStatus state="needs-input" label="Confirm the reprice before sending" />
+          <AgentStatus state="done" label="Repriced 3 invoices" />
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <AgentStatus variant="pill" state="working" label="Working" />
+            <AgentStatus variant="pill" state="idle" />
+          </div>
+        </Stack>
+      );
+    case "approval":
+      return <ApprovalGateDemo />;
+    case "autonomy":
+      return <AutonomyControlDemo />;
+    case "activity":
+      return <ActivityTimelineDemo />;
+    case "receipt":
+      return <ActionReceiptDemo />;
+    default:
+      return null;
+  }
+}
 
-const sampleDiffs = [
-  { type: "unchanged" as const, text: "The patient " },
-  { type: "removed" as const, text: "should be given" },
-  { type: "added" as const, text: "should receive" },
-  { type: "unchanged" as const, text: " Protocol B treatment, which " },
-  { type: "removed" as const, text: "has been shown in studies to reduce" },
-  { type: "added" as const, text: "reduces" },
-  { type: "unchanged" as const, text: " treatment time by 30% " },
-  { type: "removed" as const, text: "according to available data" },
-  { type: "added" as const, text: "based on 847 comparable cases" },
-  { type: "unchanged" as const, text: "." },
-];
+/* ---------- chrome ---------- */
 
-function Section({
-  title,
-  description,
-  children,
-}: {
-  title: string;
-  description: string;
-  children: React.ReactNode;
-}) {
+function Logo({ size = 26 }: { size?: number }) {
+  const theme = useHaloTheme();
   return (
-    <section style={{ marginBottom: "56px" }}>
-      <h2
-        style={{
-          margin: "0 0 4px",
-          fontSize: "17px",
-          fontWeight: 600,
-          color: "#0a0a0a",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {title}
-      </h2>
-      <p style={{ margin: "0 0 20px", fontSize: "13px", color: "#737373" }}>
-        {description}
-      </p>
-      {children}
-    </section>
+    <div style={{ width: size, height: size, borderRadius: "50%", backgroundColor: theme.colors.text, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+      <svg width={size * 0.5} height={size * 0.5} viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="6" stroke={theme.colors.background} strokeWidth="2" opacity="0.5" />
+        <circle cx="12" cy="12" r="2.5" fill={theme.colors.background} />
+      </svg>
+    </div>
   );
 }
 
-function VariantLabel({ children }: { children: React.ReactNode }) {
+function TopBarLink({ href, children }: { href: string; children: ReactNode }) {
+  const theme = useHaloTheme();
   return (
-    <div
+    <a href={href} target="_blank" rel="noreferrer" style={{ fontSize: "13px", color: theme.colors.textSecondary, textDecoration: "none", fontWeight: 500 }}>
+      {children}
+    </a>
+  );
+}
+
+function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+  const theme = useHaloTheme();
+  return (
+    <button
+      type="button"
+      className="halo-btn"
+      onClick={onToggle}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       style={{
-        fontSize: "11px",
-        fontWeight: 500,
-        color: "#a3a3a3",
-        textTransform: "uppercase",
-        letterSpacing: "0.04em",
-        marginBottom: "8px",
-        marginTop: "20px",
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        width: "32px", height: "32px", borderRadius: theme.radius.md,
+        border: `1px solid ${theme.colors.border}`, backgroundColor: theme.colors.surface,
+        color: theme.colors.textSecondary, cursor: "pointer",
       }}
     >
-      {children}
+      {dark ? (
+        <svg width={15} height={15} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="1.6" />
+          <path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+      ) : (
+        <svg width={15} height={15} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 019.5 4a7 7 0 108.5 10.5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+function Sidebar({ activeId }: { activeId: string }) {
+  const theme = useHaloTheme();
+  return (
+    <nav aria-label="Components" style={{ position: "sticky", top: "80px", alignSelf: "flex-start", width: "196px", flexShrink: 0, fontFamily: theme.font.sans }}>
+      {SECTIONS.map((section) => (
+        <div key={section.id} style={{ marginBottom: "18px" }}>
+          <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted, marginBottom: "8px" }}>
+            {section.label}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+            {section.items.map((item) => {
+              const active = item.id === activeId;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  style={{
+                    fontSize: "13px",
+                    color: active ? theme.colors.text : theme.colors.textMuted,
+                    fontWeight: active ? 550 : 400,
+                    textDecoration: "none",
+                    padding: "3px 0",
+                    borderLeft: `2px solid ${active ? theme.colors.text : "transparent"}`,
+                    paddingLeft: "10px",
+                    marginLeft: "-2px",
+                    transition: "color .12s ease",
+                  }}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </nav>
+  );
+}
+
+function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+  const theme = useHaloTheme();
+  const [activeId, setActiveId] = useState(SECTIONS[0].items[0].id);
+  const [isWide, setIsWide] = useState(true);
+
+  useEffect(() => {
+    const onResize = () => setIsWide(window.innerWidth >= 900);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = theme.colors.background;
+  }, [theme.colors.background]);
+
+  useEffect(() => {
+    const anchors = Array.from(document.querySelectorAll<HTMLElement>("[data-halo-anchor]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: "-72px 0px -70% 0px", threshold: 0 }
+    );
+    anchors.forEach((a) => observer.observe(a));
+    return () => observer.disconnect();
+  }, []);
+
+  const canvasStyle: React.CSSProperties = {
+    padding: "22px 24px",
+    border: `1px solid ${theme.colors.border}`,
+    borderRadius: theme.radius.lg,
+    backgroundColor: theme.colors.background,
+    marginBottom: "12px",
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", backgroundColor: theme.colors.background, color: theme.colors.text, fontFamily: theme.font.sans, transition: "background-color .2s ease, color .2s ease", ["--halo-canvas-border" as string]: theme.colors.border }}>
+      {/* top bar */}
+      <div style={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: theme.colors.background, borderBottom: `1px solid ${theme.colors.border}` }}>
+        <div style={{ maxWidth: "1040px", margin: "0 auto", height: "56px", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
+            <Logo />
+            <span style={{ fontSize: "16px", fontWeight: 600, letterSpacing: "-0.02em" }}>Halo</span>
+            <span style={{ fontSize: "11px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 7px", marginLeft: "2px" }}>v0.1</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+            <TopBarLink href={GITHUB_URL}>GitHub</TopBarLink>
+            <TopBarLink href={NPM_URL}>npm</TopBarLink>
+            <ThemeToggle dark={dark} onToggle={onToggle} />
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1040px", margin: "0 auto", display: "flex", gap: "48px", padding: "0 24px" }}>
+        {isWide && <div style={{ paddingTop: "48px" }}><Sidebar activeId={activeId} /></div>}
+
+        <main style={{ flex: 1, minWidth: 0, maxWidth: "720px", padding: "48px 0 96px" }}>
+          {/* hero */}
+          <header style={{ marginBottom: "40px" }}>
+            <h1 style={{ margin: "0 0 14px", fontSize: "34px", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.1 }}>
+              A trust layer for AI interfaces
+            </h1>
+            <p style={{ margin: "0 0 22px", fontSize: "16px", lineHeight: 1.6, color: theme.colors.textSecondary, maxWidth: "560px" }}>
+              Twelve React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.
+            </p>
+            <div style={{ maxWidth: "360px", marginBottom: "16px" }}>
+              <CodeBlock code="npm i @pujamahtani/halo" />
+            </div>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ fontSize: "13px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
+                View on GitHub
+              </a>
+              <a href="#confidence" className="halo-btn" style={{ fontSize: "13px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
+                Browse components
+              </a>
+            </div>
+          </header>
+
+          {/* getting started */}
+          <section style={{ marginBottom: "48px" }}>
+            <h2 style={{ margin: "0 0 6px", fontSize: "13px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Getting started</h2>
+            <p style={{ margin: "0 0 14px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6 }}>
+              Wrap your app once, then drop components in. No stylesheet to import. Works in the Next.js App Router, and ships with light and dark themes.
+            </p>
+            <CodeBlock code={`import { HaloProvider, ApprovalGate } from "@pujamahtani/halo";
+
+export function App() {
+  return (
+    <HaloProvider>
+      <ApprovalGate
+        action="Reprice 3 invoices to the new rate"
+        risk="high"
+        onApprove={approve}
+        onReject={reject}
+      />
+    </HaloProvider>
+  );
+}`} />
+          </section>
+
+          {/* component sections */}
+          {SECTIONS.map((section) => (
+            <div key={section.id}>
+              <div style={{ margin: "0 0 24px", paddingTop: "8px" }}>
+                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>{section.label}</h2>
+                <p style={{ margin: 0, fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "520px" }}>{section.blurb}</p>
+              </div>
+
+              {section.items.map((item) => (
+                <section key={item.id} id={item.id} data-halo-anchor style={{ marginBottom: "44px", scrollMarginTop: "72px" }}>
+                  <h3 style={{ margin: "0 0 3px", fontSize: "15px", fontWeight: 600 }}>{item.name}</h3>
+                  <p style={{ margin: "0 0 16px", fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "560px" }}>{item.blurb}</p>
+                  <div style={canvasStyle}>{renderPreview(item.id)}</div>
+                  <CodeBlock code={item.code} />
+                </section>
+              ))}
+            </div>
+          ))}
+
+          {/* v2 teaser */}
+          <section style={{ marginTop: "24px", padding: "28px", borderRadius: theme.radius.lg, border: `1px dashed ${theme.colors.borderStrong}`, backgroundColor: theme.colors.surface }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+              <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
+            </div>
+            <p style={{ margin: "0 0 20px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6, maxWidth: "520px" }}>
+              v1 covers a single agent working alongside one person. Next, Halo grows into the harder territory: many agents, and the humans supervising them at scale.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px" }}>
+              {V2_ITEMS.map((item) => (
+                <div key={item.name} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}` }}>
+                  <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
+                  <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>
+                </div>
+              ))}
+            </div>
+            <p style={{ margin: "18px 0 0", fontSize: "12.5px", color: theme.colors.textMuted }}>
+              Star the repo to follow along.{" "}
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" style={{ color: theme.colors.textSecondary }}>github.com/pujamahtani/halo</a>
+            </p>
+          </section>
+
+          {/* footer */}
+          <footer style={{ marginTop: "56px", paddingTop: "20px", borderTop: `1px solid ${theme.colors.border}`, fontSize: "12.5px", color: theme.colors.textMuted, display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <span>Built by <a href="https://pujamahtani.com" target="_blank" rel="noreferrer" style={{ color: theme.colors.textSecondary, textDecoration: "none" }}>Puja Mahtani</a></span>
+            <span>·</span>
+            <span>MIT licensed</span>
+            <span>·</span>
+            <span>Open source</span>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 }
 
 function App() {
+  const [dark, setDark] = useState(false);
   return (
-    <HaloProvider>
-      <div
-        style={{
-          maxWidth: "680px",
-          margin: "0 auto",
-          padding: "48px 24px 80px",
-          fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-        }}
-      >
-        <header style={{ marginBottom: "56px" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <div
-              style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "50%",
-                backgroundColor: "#0a0a0a",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="6" stroke="white" strokeWidth="2" opacity="0.5" />
-                <circle cx="12" cy="12" r="2.5" fill="white" />
-              </svg>
-            </div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "22px",
-                fontWeight: 600,
-                color: "#0a0a0a",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Halo
-            </h1>
-          </div>
-          <p
-            style={{
-              margin: 0,
-              fontSize: "14px",
-              color: "#737373",
-              lineHeight: 1.6,
-              maxWidth: "480px",
-            }}
-          >
-            A trust layer for AI interfaces. Twelve React components that help
-            people understand, verify, and control AI as it works and acts
-            inside a product, not just inside a chat.
-          </p>
-        </header>
-
-        {/* AI BADGE */}
-        <Section
-          title="AIBadge"
-          description="Labels content as AI-generated. Supports filled, outlined, and ghost variants with optional processing time."
-        >
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-            <AIBadge />
-            <AIBadge variant="outlined" label="AI suggested" />
-            <AIBadge variant="ghost" label="AI draft" />
-          </div>
-
-          <VariantLabel>With processing time</VariantLabel>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-            <AIBadge label="AI generated" processingTime={4.2} />
-            <AIBadge variant="outlined" label="AI generated" processingTime={13} />
-          </div>
-
-          <VariantLabel>Small size</VariantLabel>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-            <AIBadge size="sm" label="AI" />
-            <AIBadge size="sm" variant="outlined" label="AI draft" />
-          </div>
-
-          <VariantLabel>Disclaimer footer</VariantLabel>
-          <div>
-            <p style={{ fontSize: "14px", color: "#0a0a0a", lineHeight: 1.7, marginBottom: "8px" }}>
-              Based on the patient's lab results, switching to Protocol B would reduce treatment time by approximately 30%.
-            </p>
-            <div style={{ fontSize: "11px", color: "#a3a3a3", display: "flex", alignItems: "center", gap: "4px" }}>
-              <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M8 5v3M8 10.5h.01" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              AI-generated response. May contain errors.
-            </div>
-          </div>
-        </Section>
-
-        {/* CONFIDENCE */}
-        <Section
-          title="ConfidenceIndicator"
-          description="Shows how confident the AI is. Supports score display, multi-dimension breakdown, inline pills, and disclaimer-only mode."
-        >
-          <VariantLabel>Score + explanation</VariantLabel>
-          <ConfidenceIndicator
-            variant="score"
-            score={0.87}
-            explanation="Based on 847 similar cases with statistically significant outcomes. Score reflects match strength against clinical protocols."
-          />
-
-          <VariantLabel>Multi-dimension with status icons</VariantLabel>
-          <ConfidenceIndicator
-            variant="dimensions"
-            dimensions={[
-              { label: "Accuracy", score: 0.92 },
-              { label: "Relevance", score: 0.85 },
-              { label: "Completeness", score: 0.58 },
-              { label: "Recency", score: 0.31 },
-            ]}
-          />
-
-          <VariantLabel>Inline pill</VariantLabel>
-          <p style={{ fontSize: "14px", color: "#0a0a0a", lineHeight: 1.7 }}>
-            The recommended dosage adjustment is 15mg daily{" "}
-            <ConfidenceIndicator variant="inline" score={0.87} />
-            {" "}based on the patient's metabolic profile.
-          </p>
-
-          <VariantLabel>Disclaimer only (no score)</VariantLabel>
-          <ConfidenceIndicator
-            variant="disclaimer"
-            disclaimer="This response is generated by AI and may contain errors. Verify critical information independently."
-          />
-        </Section>
-
-        {/* SOURCE CITATION */}
-        <Section
-          title="SourceCitation"
-          description="Shows where AI sourced its information. Three layers: inline superscripts, summary pill, and full source panel."
-        >
-          <VariantLabel>Inline superscripts</VariantLabel>
-          <p style={{ fontSize: "14px", color: "#0a0a0a", lineHeight: 1.8 }}>
-            Clinical studies show that Protocol B reduces treatment time by 30%
-            <SourceCitation sources={sampleSources} variant="superscript" />
-            {" "}while maintaining equivalent outcomes. Cost analysis suggests a 15% reduction in per-patient spending.
-          </p>
-
-          <VariantLabel>Source count pill</VariantLabel>
-          <SourceCitation sources={sampleSources} variant="pill" />
-
-          <VariantLabel>Source panel with rich previews</VariantLabel>
-          <SourceCitation sources={sampleSources} variant="panel" />
-        </Section>
-
-        {/* REASONING */}
-        <Section
-          title="ReasoningPanel"
-          description="Shows the AI's step-by-step thinking process. Supports live thinking, collapsed summary, and raw output modes."
-        >
-          <VariantLabel>Live thinking</VariantLabel>
-          <ReasoningPanel variant="live" steps={sampleSteps} />
-
-          <VariantLabel>Collapsed (completed)</VariantLabel>
-          <ReasoningPanel
-            variant="collapsed"
-            steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))}
-            totalDuration={7.1}
-            defaultOpen={false}
-          />
-
-          <VariantLabel>Raw output</VariantLabel>
-          <ReasoningPanel
-            variant="raw"
-            rawLabel="Generated query"
-            rawContent={`SELECT p.patient_id, p.protocol,
-  AVG(r.recovery_days) as avg_recovery,
-  COUNT(*) as case_count
-FROM patients p
-JOIN results r ON p.id = r.patient_id
-WHERE p.protocol IN ('A', 'B')
-GROUP BY p.patient_id, p.protocol
-HAVING COUNT(*) > 5`}
-          />
-        </Section>
-
-        {/* SUGGESTION CARD */}
-        <Section
-          title="SuggestionCard"
-          description="Displays AI suggestions for content changes. Supports inline text diffs, option lists with tone control, and side-by-side comparison."
-        >
-          <VariantLabel>Inline text diff</VariantLabel>
-          <SuggestionCard
-            variant="inline-diff"
-            diffs={sampleDiffs}
-            onAccept={() => console.log("accepted")}
-            onDismiss={() => console.log("dismissed")}
-          />
-
-          <VariantLabel>Suggestion list with tone control</VariantLabel>
-          <SuggestionCard
-            variant="suggestion-list"
-            suggestions={[
-              "Protocol B: A cost-effective treatment alternative",
-              "Reducing treatment time with Protocol B",
-              "Evidence-based case for switching to Protocol B",
-            ]}
-            selectedIndex={0}
-            toneOptions={["Clinical", "Conversational", "Executive summary"]}
-            onSelectSuggestion={(i) => console.log("selected", i)}
-            onRegenerate={(tone) => console.log("regenerate", tone)}
-          />
-
-          <VariantLabel>Side-by-side diff</VariantLabel>
-          <SuggestionCard
-            variant="diff-card"
-            before="Patient should be given Protocol A treatment per standard procedure."
-            after="Patient should receive Protocol B, which reduces treatment time by 30% based on 847 comparable cases."
-          />
-        </Section>
-
-        {/* RESPONSE ACTIONS */}
-        <Section
-          title="ResponseActions"
-          description="Action controls for AI responses. Includes standard action bar, context-specific actions, structured feedback collection, and suggested follow-ups."
-        >
-          <VariantLabel>Full action bar</VariantLabel>
-          <div
-            style={{
-              padding: "16px",
-              borderRadius: "8px",
-              border: "1px solid #e5e5e5",
-              backgroundColor: "#ffffff",
-            }}
-          >
-            <p style={{ fontSize: "14px", color: "#0a0a0a", lineHeight: 1.7, marginBottom: "14px" }}>
-              Based on the analysis, switching to Protocol B is recommended for Patient Group 3.
-            </p>
-            <ResponseActions
-              variant="bar"
-              onAccept={() => console.log("accepted")}
-              onDismiss={() => console.log("dismissed")}
-              onCopy={() => console.log("copied")}
-            />
-          </div>
-
-          <VariantLabel>Context-specific actions</VariantLabel>
-          <ResponseActions
-            variant="context"
-            actions={[
-              { label: "Apply to patient record", icon: "apply", variant: "primary" },
-              { label: "Export as PDF", icon: "download", variant: "secondary" },
-              { label: "Continue analysis", icon: "expand", variant: "secondary" },
-            ]}
-          />
-
-          <VariantLabel>Structured feedback</VariantLabel>
-          <ResponseActions
-            variant="feedback"
-            feedbackQuestion="What was helpful about this response?"
-            feedbackCriteria={[
-              { label: "Accurately reflects patient data", defaultChecked: true },
-              { label: "Cites relevant sources" },
-              { label: "Actionable recommendation", defaultChecked: true },
-              { label: "Explains reasoning clearly" },
-            ]}
-            onFeedback={(selected) => console.log("feedback:", selected)}
-          />
-
-          <VariantLabel>Suggested follow-ups</VariantLabel>
-          <ResponseActions
-            variant="follow-ups"
-            followUps={[
-              { label: "Compare Protocol B outcomes across age groups", onClick: () => console.log("follow-up 1") },
-              { label: "Generate a summary report for the care team", onClick: () => console.log("follow-up 2") },
-            ]}
-          />
-        </Section>
-
-        {/* APPROVAL GATE */}
-        <Section
-          title="ApprovalGate"
-          description="A human-in-the-loop checkpoint before an agent takes action. Shows the proposed action, risk level, context, and confidence, with approve / reject / modify controls."
-        >
-          <ApprovalGateDemo />
-        </Section>
-
-        {/* ACTION RECEIPT */}
-        <Section
-          title="ActionReceipt"
-          description="Post-action proof of what the agent did, with a before/after diff and an undo. The receipt is where trust starts."
-        >
-          <ActionReceiptDemo />
-        </Section>
-
-        {/* AUTONOMY CONTROL */}
-        <Section
-          title="AutonomyControl"
-          description="Progressive delegation. Let people dial how much freedom the agent has, from suggest-only to fully autonomous, and grow it as trust builds."
-        >
-          <AutonomyControlDemo />
-        </Section>
-
-        {/* AGENT STATUS */}
-        <Section
-          title="AgentStatus"
-          description="A live read on what the agent is doing: idle, working, needs input, done, or failed. Full row and compact pill variants."
-        >
-          <VariantLabel>Row</VariantLabel>
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <AgentStatus state="working" label="Cross-referencing 3 contracts..." elapsed={12} />
-            <AgentStatus state="needs-input" label="Confirm the reprice before sending" />
-            <AgentStatus state="done" label="Repriced 3 invoices" />
-            <AgentStatus state="error" label="Could not reach the billing API" />
-          </div>
-          <VariantLabel>Pill</VariantLabel>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            <AgentStatus variant="pill" state="working" label="Working" />
-            <AgentStatus variant="pill" state="needs-input" label="Needs input" />
-            <AgentStatus variant="pill" state="idle" />
-          </div>
-        </Section>
-
-        {/* GENERATION STATE */}
-        <Section
-          title="GenerationState"
-          description="States for content the AI is producing in-product: streaming with a caret, skeleton loading, and a graceful error with retry."
-        >
-          <VariantLabel>Streaming</VariantLabel>
-          <GenerationState state="streaming" text="Based on the updated contract, the recommended reprice for these three invoices is" />
-          <VariantLabel>Skeleton</VariantLabel>
-          <GenerationState state="skeleton" lines={3} />
-          <VariantLabel>Error with retry</VariantLabel>
-          <GenerationState state="error" onRetry={() => console.log("retry")} />
-        </Section>
-
-        {/* ACTIVITY TIMELINE */}
-        <Section
-          title="ActivityTimeline"
-          description="An audit log of everything the agent did: who, what, when, with per-entry undo. Recovery is the most-requested trust feature."
-        >
-          <ActivityTimelineDemo />
-        </Section>
-
-        <footer
-          style={{
-            marginTop: "64px",
-            paddingTop: "20px",
-            borderTop: "1px solid #e5e5e5",
-            fontSize: "12px",
-            color: "#a3a3a3",
-          }}
-        >
-          Built by{" "}
-          <a
-            href="https://pujamahtani.com"
-            style={{ color: "#525252", textDecoration: "none" }}
-          >
-            Puja Mahtani
-          </a>
-          {" "}&middot; Halo &middot; AI Trust Components
-        </footer>
-      </div>
+    <HaloProvider theme={dark ? darkTheme : defaultTheme}>
+      <Site dark={dark} onToggle={() => setDark((d) => !d)} />
     </HaloProvider>
   );
 }

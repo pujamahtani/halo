@@ -50,6 +50,13 @@ function ReviewStep() {
 }
 ```
 
+## Compatibility & accessibility
+
+- **Next.js App Router** — components ship with the `"use client"` boundary, so you can import them into Server Components without extra wiring.
+- **Accessible** — interactive components are keyboard operable (the `AutonomyControl` is a full arrow-key radiogroup), preserve native focus rings, and respect `prefers-reduced-motion`.
+- **ESM + CJS** — ships both, with complete TypeScript types.
+- **No runtime CSS import** — styles are inline and theme-driven; nothing to import or configure.
+
 ## Components
 
 | Component | What it does |
@@ -77,11 +84,22 @@ Halo ships a neutral gray theme with no brand colors, so it adapts to your produ
 </HaloProvider>
 ```
 
+### Light and dark
+
+Halo ships both. Import `darkTheme` and pass it to the provider, or wire it to your own toggle.
+
+```tsx
+import { HaloProvider, darkTheme } from "@pujamahtani/halo";
+
+<HaloProvider theme={darkTheme}>{children}</HaloProvider>
+```
+
 ## Scripts
 
 ```bash
 npm run dev        # run the demo showcase
 npm run build:lib  # build the publishable library (dist/ + types)
+npm test           # run the component test suite
 npm run lint       # oxlint
 ```
 
