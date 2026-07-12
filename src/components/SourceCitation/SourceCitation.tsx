@@ -1,5 +1,6 @@
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
+import { safeUrl } from "../../utils/safeUrl";
 
 export interface Source {
   title: string;
@@ -57,7 +58,7 @@ function SuperscriptVariant({
       {sources.map((source, i) => (
         <a
           key={i}
-          href={source.url || "#"}
+          href={safeUrl(source.url)}
           target="_blank"
           rel="noopener noreferrer"
           title={source.title}
@@ -144,7 +145,7 @@ function PanelVariant({
       {sources.map((source, i) => (
         <a
           key={i}
-          href={source.url || "#"}
+          href={safeUrl(source.url)}
           target="_blank"
           rel="noopener noreferrer"
           style={{

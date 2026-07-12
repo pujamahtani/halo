@@ -4,6 +4,9 @@
   "description": "A trust layer for AI interfaces. React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Puja Mahtani (https://pujamahtani.com)",
   "homepage": "https://pujamahtani.com",
   "repository": {

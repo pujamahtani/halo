@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import type { ReactElement } from "react";
+import { safeUrl } from "../utils/safeUrl";
 import {
   HaloProvider,
   AIBadge,
@@ -40,6 +41,29 @@ describe("mounts", () => {
   it.each(mountCases)("%s renders", (_name, ui) => {
     const { container } = wrap(ui);
     expect(container.firstChild).toBeTruthy();
+  });
+});
+
+describe("safeUrl (link sanitization)", () => {
+  it("allows ordinary web, mail, relative, anchor, and protocol-relative links", () => {
+    expect(safeUrl("https://example.com/a")).toBe("https://example.com/a");
+    expect(safeUrl("http://example.com")).toBe("http://example.com");
+    expect(safeUrl("mailto:a@b.com")).toBe("mailto:a@b.com");
+    expect(safeUrl("/docs/x")).toBe("/docs/x");
+    expect(safeUrl("#section")).toBe("#section");
+    expect(safeUrl("//cdn.example.com/x")).toBe("//cdn.example.com/x");
+  });
+
+  it("blocks executable and smuggled schemes", () => {
+    expect(safeUrl("javascript:alert(1)")).toBe("#");
+    expect(safeUrl("JavaScript:alert(1)")).toBe("#");
+    expect(safeUrl("  javascript:alert(1)")).toBe("#");
+    expect(safeUrl("java\tscript:alert(1)")).toBe("#");
+    expect(safeUrl("java\nscript:alert(1)")).toBe("#");
+    expect(safeUrl("data:text/html,<script>alert(1)</script>")).toBe("#");
+    expect(safeUrl("vbscript:msgbox(1)")).toBe("#");
+    expect(safeUrl(undefined)).toBe("#");
+    expect(safeUrl("")).toBe("#");
   });
 });
 
