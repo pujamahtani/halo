@@ -1,15 +1,27 @@
 # Halo
 
-React components for the moments when someone has to trust, verify, or undo what an AI just did.
+Trust and control components for AI features. Twelve React components for the parts of a product where a person has to understand, check, or undo what an AI did.
 
 [![npm version](https://img.shields.io/npm/v/@pujamahtani/halo.svg)](https://www.npmjs.com/package/@pujamahtani/halo)
 [![license](https://img.shields.io/npm/l/@pujamahtani/halo.svg)](./LICENSE)
+[![types](https://img.shields.io/npm/types/@pujamahtani/halo.svg)](https://www.npmjs.com/package/@pujamahtani/halo)
 
-Most AI component kits cover the chat window: message bubbles, streaming text, a prompt box. Halo covers what happens outside of it, once AI starts suggesting edits, taking actions, and running tasks across the rest of your product. It answers the questions a person asks in those moments. How sure is the model? Where did this come from? What is the agent about to do, and can I take it back?
+## Why Halo
 
-Built with React 19 and TypeScript. It uses a neutral gray theme by default, so it adapts to your product instead of restyling it, and there is no CSS to import at runtime.
+AI in products used to live in a chat window, so the interface patterns that came with it (message bubbles, streaming text, a prompt box) were built for chat. Most AI component libraries still cover that surface.
 
-## Install
+The work has moved. AI now suggests edits, runs tasks, and takes actions across the rest of the product, not only inside a conversation. When it does, a person needs to answer a few practical questions right where the action happens: how confident is the model, where did this come from, what is the agent about to do, and can I undo it.
+
+Halo is the set of components for those moments. It groups them by what trusting an AI action actually takes:
+
+- **Transparency:** understand what the AI produced.
+- **Generation:** follow content as it is created, and act on it.
+- **Control:** supervise agents before and while they act.
+- **Reversibility:** recover when the AI gets it wrong.
+
+The components use a neutral gray theme by default, carry no brand colors, and need no stylesheet at runtime, so they adapt to your product instead of restyling it.
+
+## Installation
 
 ```bash
 npm install @pujamahtani/halo
@@ -17,14 +29,14 @@ npm install @pujamahtani/halo
 
 `react` and `react-dom` (v18 or newer) are peer dependencies.
 
-## Quick start
+## Usage
 
-Wrap your app once in `HaloProvider`, then use components wherever AI touches the UI.
+Wrap your app once in `HaloProvider`, then use any component where AI touches the UI.
 
 ```tsx
 import { HaloProvider, ApprovalGate } from "@pujamahtani/halo";
 
-function ReviewStep() {
+export function ReviewStep() {
   return (
     <HaloProvider>
       <ApprovalGate
@@ -44,36 +56,28 @@ function ReviewStep() {
 }
 ```
 
-## The components
-
-Twelve components, grouped by what a person needs before they will trust an AI action.
+## Components
 
 ### Transparency
 
-Understand what the model is telling you.
-
-| Component | What it does |
+| Component | Description |
 |---|---|
 | `ConfidenceIndicator` | How confident the model is: a score, a multi-dimension breakdown, an inline pill, or a plain disclaimer. |
-| `SourceCitation` | Where the answer came from: inline superscripts, a summary pill, or a full source panel. |
+| `SourceCitation` | Where an answer came from: inline superscripts, a count pill, or a full source panel. |
 | `ReasoningPanel` | The model's step-by-step thinking, shown live, collapsed, or as raw output. |
-| `AIBadge` | Marks content as AI-generated or AI-assisted, with optional processing time. |
+| `AIBadge` | Marks content as AI-generated, AI-assisted, or human-verified, with optional processing time. |
 
 ### Generation
 
-Follow what the AI produces, and act on it.
-
-| Component | What it does |
+| Component | Description |
 |---|---|
 | `GenerationState` | Content being produced: a streaming caret, a skeleton, or an error with retry. |
-| `SuggestionCard` | An AI edit you can take or leave: inline diff, a list with tone control, or side by side. |
+| `SuggestionCard` | An AI edit to accept or dismiss: inline diff, a list with tone control, or side by side. |
 | `ResponseActions` | The controls under a response: accept, dismiss, retry, copy, feedback, and follow-ups. |
 
 ### Control
 
-Supervise agents as they act.
-
-| Component | What it does |
+| Component | Description |
 |---|---|
 | `AgentStatus` | A live read on the agent: idle, working, needs input, done, or failed. |
 | `ApprovalGate` | A checkpoint before an agent acts, showing the action, its risk, and the context. |
@@ -81,22 +85,16 @@ Supervise agents as they act.
 
 ### Reversibility
 
-Recover when the AI is wrong.
-
-| Component | What it does |
+| Component | Description |
 |---|---|
 | `ActivityTimeline` | An audit log of agent activity, with per-entry undo. |
 | `ActionReceipt` | Proof of what an agent changed, with a before-and-after diff and an undo. |
 
-## Works with
-
-- **Next.js App Router.** Components ship with a `"use client"` boundary, so you can import them from Server Components without extra setup.
-- **Keyboard and assistive tech.** Interactive components are operable by keyboard (`AutonomyControl` is a full arrow-key radiogroup), keep native focus rings, and honor `prefers-reduced-motion`.
-- **ESM and CommonJS**, with TypeScript types included.
+Every component takes plain props and calls back with plain data. Halo does not wrap a specific AI SDK, so it works with any backend or model.
 
 ## Theming
 
-Halo ships one neutral theme and no brand colors, so it takes on your product's look. Override any token by passing a partial theme to the provider.
+Halo ships one neutral theme and no brand colors. Override any token by passing a partial theme to the provider.
 
 ```tsx
 <HaloProvider theme={{ colors: { text: "#111", border: "#e2e2e2" }, radius: { md: "8px" } }}>
@@ -112,23 +110,34 @@ import { HaloProvider, darkTheme } from "@pujamahtani/halo";
 <HaloProvider theme={darkTheme}>{children}</HaloProvider>
 ```
 
-## Local development
+## Accessibility
 
-```bash
-npm run dev        # run the demo site
-npm test           # run the component tests
-npm run build:lib  # build the package into dist/
-```
+Interactive components are operable by keyboard and keep the browser's native focus ring. `AutonomyControl` is a full radiogroup with arrow-key, Home, and End navigation. Animations respect `prefers-reduced-motion`. Links built from source data are sanitized against unsafe URL schemes such as `javascript:`.
+
+## Compatibility
+
+- React 18 and 19.
+- Next.js App Router. The package ships a `"use client"` boundary, so it imports cleanly into Server Components.
+- ESM and CommonJS, with TypeScript types included.
 
 ## Roadmap
 
-v1 covers one agent working next to one person. Planned for v2: handoffs between a person and an agent or between agents, shared state when several agents work together, a team view of what every agent is doing, and patterns for mobile and voice.
+v1 covers a single agent working alongside one person. v2 moves into the harder problems: handoffs between a person and an agent or between agents, shared state when several agents work together, a team view of agent activity, and patterns for mobile and voice.
+
+## Contributing
+
+Issues and pull requests are welcome. To run the project locally:
+
+```bash
+npm install
+npm run dev        # demo site
+npm test           # component tests
+npm run build:lib  # build the package into dist/
+```
 
 ## About
 
 I built Halo out of patterns I kept rebuilding while designing AI features in healthcare, where someone always has to sign off on what the model suggests before it counts for anything. Those trust controls never came in a library, so every project started them again from scratch. This is the reusable version I wished I had.
-
-MIT licensed and free to use. If you ship something with it, I would like to see it.
 
 Built by [Puja Mahtani](https://pujamahtani.com).
 
