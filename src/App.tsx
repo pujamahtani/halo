@@ -14,16 +14,9 @@ import { GenerationState } from "./components/GenerationState/GenerationState";
 import { ActivityTimeline, type ActivityEntry } from "./components/ActivityTimeline/ActivityTimeline";
 import { CodeBlock } from "./demo/CodeBlock";
 import { SECTIONS, V2_ITEMS } from "./demo/registry";
-import { Package, Sun, Moon, LayoutGrid, Eye, Sparkles, ShieldCheck, Undo2, Rocket, ArrowLeftRight, Network, Gauge, Smartphone } from "lucide-react";
+import { Sun, Moon, Package, LayoutGrid, Rocket, ArrowLeftRight, Network, Gauge, Smartphone, Sparkles } from "lucide-react";
 
-const PILLAR_ICONS: Record<string, typeof Eye> = {
-  transparency: Eye,
-  generation: Sparkles,
-  control: ShieldCheck,
-  reversibility: Undo2,
-};
-
-const V2_ICONS: Record<string, typeof Eye> = {
+const V2_ICONS: Record<string, typeof Sparkles> = {
   "HandoffState": ArrowLeftRight,
   "Multi-agent coordination": Network,
   "Observability dashboard": Gauge,
@@ -202,8 +195,6 @@ function Logo({ size = 26 }: { size?: number }) {
   );
 }
 
-// GitHub's logo is a brand mark, which Lucide no longer ships, so it stays a
-// single custom SVG (kept visually consistent with the Lucide set around it).
 function GithubMark({ size = 15 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -388,10 +379,7 @@ export function App() {
           {SECTIONS.map((section) => (
             <div key={section.id}>
               <div style={{ margin: "0 0 24px", paddingTop: "8px" }}>
-                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em", display: "flex", alignItems: "center", gap: "9px" }}>
-                  {(() => { const Icon = PILLAR_ICONS[section.id] ?? Eye; return <Icon size={19} strokeWidth={1.75} color={theme.colors.textSecondary} />; })()}
-                  {section.label}
-                </h2>
+                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>{section.label}</h2>
                 <p style={{ margin: 0, fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "520px" }}>{section.blurb}</p>
               </div>
 
