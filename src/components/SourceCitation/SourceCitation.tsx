@@ -1,3 +1,4 @@
+import { FileText, Database, BookOpen, Globe, Lock } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import { safeUrl } from "../../utils/safeUrl";
@@ -18,32 +19,9 @@ export interface SourceCitationProps {
 }
 
 function TypeIcon({ type, color }: { type?: string; color: string }) {
-  const iconPaths: Record<string, string> = {
-    document: "M4 2h5.5L14 6.5V14a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2zM9.5 2v5H14",
-    database: "M2 5c0-1.7 2.7-3 6-3s6 1.3 6 3v6c0 1.7-2.7 3-6 3s-6-1.3-6-3V5zM2 8c0 1.7 2.7 3 6 3s6-1.3 6-3",
-    research: "M3 3h10v10H3V3zM7 6h2M6 8h4M6 10h3",
-    web: "M8 1a7 7 0 100 14A7 7 0 108 1zM1 8h14M8 1c2 2 3 4.5 3 7s-1 5-3 7M8 1c-2 2-3 4.5-3 7s1 5 3 7",
-    internal: "M2 4h12M2 8h12M2 12h8",
-  };
-
-  return (
-    <svg
-      width={12}
-      height={12}
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden="true"
-      style={{ flexShrink: 0 }}
-    >
-      <path
-        d={iconPaths[type || "document"]}
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  const map = { document: FileText, database: Database, research: BookOpen, web: Globe, internal: Lock } as const;
+  const Icon = map[type as keyof typeof map] ?? FileText;
+  return <Icon size={12} color={color} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0 }} />;
 }
 
 function SuperscriptVariant({
@@ -111,15 +89,7 @@ function PillVariant({
         cursor: "pointer",
       }}
     >
-      <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path
-          d="M4 2h5.5L14 6.5V14a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2zM9.5 2v5H14"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <FileText size={12} strokeWidth={1.5} aria-hidden="true" />
       {sources.length} source{sources.length !== 1 ? "s" : ""}
     </span>
   );

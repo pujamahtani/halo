@@ -1,3 +1,4 @@
+import { CircleAlert } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -98,10 +99,7 @@ export function GenerationState({
         fontFamily: theme.font.sans,
       }}
     >
-      <svg width={15} height={15} viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-        <circle cx="8" cy="8" r="7" stroke={theme.colors.error} strokeWidth="1.5" />
-        <path d="M8 5v3.5M8 11h.01" stroke={theme.colors.error} strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
+      <CircleAlert size={15} color={theme.colors.error} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0 }} />
       <span style={{ fontSize: "13px", color: theme.colors.textSecondary, lineHeight: 1.5, flex: 1 }}>{errorMessage}</span>
       {onRetry && (
         <button

@@ -1,6 +1,6 @@
 {
   "name": "@pujamahtani/halo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A trust layer for AI interfaces. React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.",
   "type": "module",
   "license": "MIT",
@@ -58,7 +58,8 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",
@@ -70,7 +71,6 @@
     "@vitejs/plugin-react": "^6.0.3",
     "class-variance-authority": "^0.7.1",
     "jsdom": "^29.1.1",
-    "lucide-react": "^1.24.0",
     "oxlint": "^1.71.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

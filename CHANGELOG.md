@@ -3,6 +3,12 @@
 All notable changes to Halo are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.0]
+
+### Changed
+
+- Icons now come from [lucide-react](https://lucide.dev) for one consistent set across every component, instead of hand-drawn inline SVGs. `lucide-react` is a runtime dependency and installs automatically.
+
 ## [0.1.0]
 
 Initial release. Twelve React components for trusting, verifying, and controlling

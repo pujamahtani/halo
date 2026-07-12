@@ -27,7 +27,7 @@ The components use a neutral gray theme by default, carry no brand colors, and n
 npm install @pujamahtani/halo
 ```
 
-`react` and `react-dom` (v18 or newer) are peer dependencies.
+`react` and `react-dom` (v18 or newer) are peer dependencies. Icons come from `lucide-react`, which installs automatically.
 
 ## Usage
 

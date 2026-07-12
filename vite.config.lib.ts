@@ -33,7 +33,7 @@ export default defineConfig({
       fileName: (format) => `halo.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: ["react", "react-dom", "react/jsx-runtime", "lucide-react"],
       output: {
         // Every component uses React context/state, so the whole library is
         // client-side. This banner makes it safe to import from a Next.js

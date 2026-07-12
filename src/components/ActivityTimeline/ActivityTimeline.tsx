@@ -1,3 +1,4 @@
+import { Check, X, Undo2 } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -49,21 +50,9 @@ function StatusDot({ status }: { status: ActivityStatus }) {
         flexShrink: 0,
       }}
     >
-      {status === "done" && (
-        <svg width={10} height={10} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M4 8.5l2.5 2.5L12 5.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
-      {status === "failed" && (
-        <svg width={9} height={9} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M4 4l8 8M12 4l-8 8" stroke={color} strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      )}
-      {status === "undone" && (
-        <svg width={10} height={10} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M6 3.5L2.5 7 6 10.5M2.5 7H10a3.5 3.5 0 010 7H7" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
+      {status === "done" && <Check size={11} color={color} strokeWidth={2.5} aria-hidden="true" />}
+      {status === "failed" && <X size={10} color={color} strokeWidth={2.5} aria-hidden="true" />}
+      {status === "undone" && <Undo2 size={10} color={color} strokeWidth={2} aria-hidden="true" />}
     </span>
   );
 }

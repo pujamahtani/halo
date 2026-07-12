@@ -1,3 +1,4 @@
+import { Sparkles } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -8,24 +9,6 @@ export interface AIBadgeProps {
   showIcon?: boolean;
   processingTime?: number;
   className?: string;
-}
-
-function SparkleIcon({ size }: { size: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden="true"
-      style={{ flexShrink: 0 }}
-    >
-      <path
-        d="M8 1l1.5 4.5L14 7l-4.5 1.5L8 13l-1.5-4.5L2 7l4.5-1.5L8 1z"
-        fill="currentColor"
-      />
-    </svg>
-  );
 }
 
 export function AIBadge({
@@ -81,7 +64,7 @@ export function AIBadge({
         ...v,
       }}
     >
-      {showIcon && <SparkleIcon size={s.iconSize} />}
+      {showIcon && <Sparkles size={s.iconSize} strokeWidth={2} style={{ flexShrink: 0 }} />}
       {label}
       {processingTime !== undefined && (
         <span

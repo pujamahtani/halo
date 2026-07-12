@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Check, RotateCw } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -112,9 +113,7 @@ function InlineDiffVariant({
             fontFamily: theme.font.sans,
           }}
         >
-          <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8.5l3.5 3.5 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <Check size={12} strokeWidth={2} aria-hidden="true" />
           Accept
         </button>
         <button
@@ -207,9 +206,7 @@ function SuggestionListVariant({
               }}
             >
               {isSelected && (
-                <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-                  <path d="M3 8.5l3.5 3.5 7-7" stroke={theme.colors.textSecondary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Check size={14} color={theme.colors.textSecondary} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
               )}
               {s}
             </button>
@@ -264,9 +261,7 @@ function SuggestionListVariant({
             fontFamily: theme.font.sans,
           }}
         >
-          <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2 8a6 6 0 0110.2-4.3M14 2v4h-4M14 8a6 6 0 01-10.2 4.3M2 14v-4h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <RotateCw size={12} strokeWidth={1.5} aria-hidden="true" />
           Regenerate
         </button>
       </div>

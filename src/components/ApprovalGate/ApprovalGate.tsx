@@ -1,3 +1,4 @@
+import { Shield, CircleCheck, CircleX } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -87,14 +88,11 @@ function ResolvedBanner({ status }: { status: "approved" | "rejected" }) {
         fontFamily: theme.font.sans,
       }}
     >
-      <svg width={15} height={15} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="7" stroke={color} strokeWidth="1.5" />
-        {approved ? (
-          <path d="M5 8.5l2 2 4-4" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        ) : (
-          <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-        )}
-      </svg>
+      {approved ? (
+        <CircleCheck size={15} color={color} strokeWidth={1.5} aria-hidden="true" />
+      ) : (
+        <CircleX size={15} color={color} strokeWidth={1.5} aria-hidden="true" />
+      )}
       {approved ? "Approved" : "Rejected"}
     </div>
   );
@@ -134,14 +132,7 @@ export function ApprovalGate({
       <div style={{ padding: "14px 16px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
-            <svg width={15} height={15} viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-              <path
-                d="M8 1.6l5.2 2.3v3.4c0 3.2-2.2 5.3-5.2 6.5-3-1.2-5.2-3.3-5.2-6.5V3.9L8 1.6z"
-                stroke={theme.colors.textSecondary}
-                strokeWidth="1.4"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Shield size={15} color={theme.colors.textSecondary} strokeWidth={1.4} aria-hidden="true" style={{ flexShrink: 0 }} />
             <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.03em", textTransform: "uppercase", color: theme.colors.textMuted }}>
               Approval required
             </span>

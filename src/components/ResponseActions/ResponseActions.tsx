@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Check, X, RotateCw, Download, Plus, Pencil, Copy, Flag, ThumbsUp, ThumbsDown, ArrowRight, type LucideIcon } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -34,30 +35,21 @@ export interface ResponseActionsProps {
   className?: string;
 }
 
-const iconPaths: Record<string, string> = {
-  check: "M3 8.5l3.5 3.5 7-7",
-  x: "M4 4l8 8M12 4l-8 8",
-  refresh: "M2 8a6 6 0 0110.2-4.3M14 2v4h-4M14 8a6 6 0 01-10.2 4.3M2 14v-4h4",
-  download: "M8 2v8m0 0l-3-3m3 3l3-3M3 13h10",
-  expand: "M4 8h8M8 4v8",
-  apply: "M3 8.5l3.5 3.5 7-7",
+const ACTION_ICONS: Record<string, LucideIcon> = {
+  check: Check,
+  x: X,
+  refresh: RotateCw,
+  download: Download,
+  expand: Plus,
+  apply: Check,
 };
 
 function ActionIcon({ name, size = 12 }: { name: string; size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d={iconPaths[name] || iconPaths.check}
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  const Icon = ACTION_ICONS[name] || Check;
+  return <Icon size={size} strokeWidth={1.5} aria-hidden="true" />;
 }
 
-function ToolbarIcon({ path, label, onClick, theme }: { path: string; label: string; onClick?: () => void; theme: ReturnType<typeof useHaloTheme> }) {
+function ToolbarIcon({ icon: Icon, label, onClick, theme }: { icon: LucideIcon; label: string; onClick?: () => void; theme: ReturnType<typeof useHaloTheme> }) {
   return (
     <button
       onClick={onClick}
@@ -79,9 +71,7 @@ function ToolbarIcon({ path, label, onClick, theme }: { path: string; label: str
       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textSecondary; }}
       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textMuted; }}
     >
-      <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d={path} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <Icon size={14} strokeWidth={1.5} aria-hidden="true" />
     </button>
   );
 }
@@ -150,9 +140,9 @@ function BarVariant({
 
       <div style={{ width: "1px", height: "20px", backgroundColor: theme.colors.border, margin: "0 2px" }} />
 
-      <ToolbarIcon path="M12 4H4a1 1 0 00-1 1v6a1 1 0 001 1h2l2 2 2-2h2a1 1 0 001-1V5a1 1 0 00-1-1z" label="Edit" onClick={onEdit} theme={theme} />
-      <ToolbarIcon path="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5M5 5h8.5A1.5 1.5 0 0115 6.5v6a1.5 1.5 0 01-1.5 1.5h-6A1.5 1.5 0 016 12.5v-6A1.5 1.5 0 017.5 5" label="Copy" onClick={onCopy} theme={theme} />
-      <ToolbarIcon path="M3 14l1.5-4.5L12 2l2 2-7.5 7.5L3 14z" label="Report" onClick={onReport} theme={theme} />
+      <ToolbarIcon icon={Pencil} label="Edit" onClick={onEdit} theme={theme} />
+      <ToolbarIcon icon={Copy} label="Copy" onClick={onCopy} theme={theme} />
+      <ToolbarIcon icon={Flag} label="Report" onClick={onReport} theme={theme} />
     </div>
   );
 }
@@ -215,8 +205,8 @@ function FeedbackVariant({
         <ActionButton action={{ label: "Accept", icon: "check", variant: "primary", onClick: onAccept }} theme={theme} />
         <ActionButton action={{ label: "Dismiss", icon: "x", variant: "secondary", onClick: onDismiss }} theme={theme} />
         <div style={{ marginLeft: "auto", display: "flex", gap: "2px" }}>
-          <ToolbarIcon path="M8 3v2.5l1 1M2 8a6 6 0 1012 0A6 6 0 002 8z" label="Helpful" theme={theme} />
-          <ToolbarIcon path="M8 13v-2.5l-1-1M14 8A6 6 0 102 8a6 6 0 0012 0z" label="Not helpful" theme={theme} />
+          <ToolbarIcon icon={ThumbsUp} label="Helpful" theme={theme} />
+          <ToolbarIcon icon={ThumbsDown} label="Not helpful" theme={theme} />
         </div>
       </div>
 
@@ -325,9 +315,7 @@ function FollowUpsVariant({
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = theme.colors.borderStrong; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = theme.colors.border; }}
           >
-            <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0 }} />
             {f.label}
           </button>
         ))}

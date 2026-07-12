@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Check, LoaderCircle, Clock, ChevronRight, Copy } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -21,54 +22,37 @@ export interface ReasoningPanelProps {
 }
 
 function CheckIcon() {
-  return (
-    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M3.5 8.5l3 3 6-6" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  return <Check size={14} color="#22c55e" strokeWidth={2} aria-hidden="true" />;
 }
 
 function Spinner({ size = 14 }: { size?: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 16 16"
-      fill="none"
-      aria-hidden="true"
-      style={{ animation: "halo-spin 0.7s linear infinite" }}
-    >
-      <circle cx="8" cy="8" r="6" stroke="#e5e5e5" strokeWidth="2" />
-      <path d="M14 8a6 6 0 00-6-6" stroke="#737373" strokeWidth="2" strokeLinecap="round" />
+    <>
       <style>{`@keyframes halo-spin { to { transform: rotate(360deg) } }`}</style>
-    </svg>
+      <LoaderCircle
+        size={size}
+        color="#737373"
+        strokeWidth={2}
+        aria-hidden="true"
+        style={{ animation: "halo-spin 0.7s linear infinite" }}
+      />
+    </>
   );
 }
 
 function ClockIcon({ color }: { color: string }) {
-  return (
-    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6.5" stroke={color} strokeWidth="1.5" />
-      <path d="M8 4.5v4l2.5 1.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  return <Clock size={14} color={color} strokeWidth={1.5} aria-hidden="true" />;
 }
 
 function ChevronIcon({ open, color }: { open: boolean; color: string }) {
   return (
-    <svg
-      width={14}
-      height={14}
-      viewBox="0 0 16 16"
-      fill="none"
+    <ChevronRight
+      size={14}
+      color={color}
+      strokeWidth={1.5}
       aria-hidden="true"
-      style={{
-        transform: open ? "rotate(90deg)" : "rotate(0deg)",
-        transition: "transform 0.2s ease",
-      }}
-    >
-      <path d="M6 4l4 4-4 4" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+      style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}
+    />
   );
 }
 
@@ -300,10 +284,7 @@ function RawVariant({
               borderRadius: theme.radius.sm,
             }}
           >
-            <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
+            <Copy size={12} strokeWidth={1.5} aria-hidden="true" />
             {copied ? "Copied" : "Copy"}
           </button>
         </div>

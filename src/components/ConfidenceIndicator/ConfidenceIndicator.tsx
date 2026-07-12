@@ -1,3 +1,4 @@
+import { CircleCheck, TriangleAlert, CircleX, CircleAlert } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -22,28 +23,9 @@ function getLevel(score: number) {
 }
 
 function StatusIcon({ level, size = 14 }: { level: string; size?: number }) {
-  if (level === "high") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="7" stroke="#22c55e" strokeWidth="1.5" />
-        <path d="M5 8.5l2 2 4-4" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    );
-  }
-  if (level === "medium") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M8 1.5l6 11H2l6-11z" stroke="#f59e0b" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M8 6v3M8 11h.01" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    );
-  }
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="7" stroke="#ef4444" strokeWidth="1.5" />
-      <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
+  if (level === "high") return <CircleCheck size={size} color="#22c55e" strokeWidth={1.5} aria-hidden="true" />;
+  if (level === "medium") return <TriangleAlert size={size} color="#f59e0b" strokeWidth={1.5} aria-hidden="true" />;
+  return <CircleX size={size} color="#ef4444" strokeWidth={1.5} aria-hidden="true" />;
 }
 
 function ScoreVariant({
@@ -190,17 +172,7 @@ function DisclaimerVariant({
         fontFamily: theme.font.sans,
       }}
     >
-      <svg
-        width={14}
-        height={14}
-        viewBox="0 0 16 16"
-        fill="none"
-        aria-hidden="true"
-        style={{ flexShrink: 0, marginTop: "1px" }}
-      >
-        <circle cx="8" cy="8" r="7" stroke={theme.colors.textMuted} strokeWidth="1.5" />
-        <path d="M8 5v3M8 10.5h.01" stroke={theme.colors.textMuted} strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
+      <CircleAlert size={14} color={theme.colors.textMuted} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0, marginTop: "1px" }} />
       <span style={{ fontSize: "12px", color: theme.colors.textMuted, lineHeight: 1.5 }}>
         {disclaimer}
       </span>

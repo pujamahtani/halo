@@ -1,3 +1,4 @@
+import { ArrowRight, Undo2, Check } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -42,9 +43,7 @@ function DiffRow({ change }: { change: ReceiptChange }) {
             <span style={{ color: theme.colors.textMuted, textDecoration: "line-through", textDecorationColor: `${theme.colors.textMuted}99` }}>
               {change.before}
             </span>
-            <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ transform: "translateY(1px)", flexShrink: 0 }}>
-              <path d="M3 8h10M9 4l4 4-4 4" stroke={theme.colors.textMuted} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <ArrowRight size={12} color={theme.colors.textMuted} strokeWidth={1.4} aria-hidden="true" style={{ transform: "translateY(1px)", flexShrink: 0 }} />
           </>
         )}
         <span style={{ color: theme.colors.text, fontWeight: 500 }}>{change.after}</span>
@@ -95,13 +94,9 @@ export function ActionReceipt({
           }}
         >
           {undone ? (
-            <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M6 3.5L2.5 7 6 10.5M2.5 7H10a3.5 3.5 0 010 7H7" stroke={theme.colors.textMuted} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <Undo2 size={13} color={theme.colors.textMuted} strokeWidth={1.4} aria-hidden="true" />
           ) : (
-            <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M4 8.5l2.5 2.5L12 5.5" stroke={theme.colors.success} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <Check size={13} color={theme.colors.success} strokeWidth={2} aria-hidden="true" />
           )}
         </div>
 
