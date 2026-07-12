@@ -11,7 +11,7 @@
   "homepage": "https://pujamahtani.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pujamahtani/halo"
+    "url": "git+https://github.com/pujamahtani/halo.git"
   },
   "keywords": [
     "react",
