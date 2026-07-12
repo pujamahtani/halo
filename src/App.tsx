@@ -391,7 +391,7 @@ export function App() {
               <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
             </div>
             <p style={{ margin: "0 0 20px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6, maxWidth: "520px" }}>
-              v1 covers a single agent working alongside one person. Next, Halo grows into the harder territory: many agents, and the humans supervising them at scale.
+              v1 covers a single agent working alongside one person. Next comes the harder part: many agents at once, and the people who have to supervise them at scale.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px" }}>
               {V2_ITEMS.map((item) => (

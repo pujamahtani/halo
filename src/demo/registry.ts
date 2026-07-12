@@ -96,7 +96,7 @@ export const SECTIONS: PillarSection[] = [
   {
     id: "control",
     label: "Control",
-    blurb: "Supervise agents as they act. This is where most products have nothing, and where trust is won or lost.",
+    blurb: "Supervise agents while they act. Most products have nothing here, which is exactly where people stop trusting the feature.",
     items: [
       {
         id: "agent-status",
@@ -127,7 +127,7 @@ export const SECTIONS: PillarSection[] = [
   {
     id: "reversibility",
     label: "Reversibility",
-    blurb: "Let people recover when the AI is wrong. The most-requested trust feature of all.",
+    blurb: "Let people undo and recover when the AI gets it wrong. It is the trust feature developers ask for most.",
     items: [
       {
         id: "activity",
@@ -138,7 +138,7 @@ export const SECTIONS: PillarSection[] = [
       {
         id: "receipt",
         name: "ActionReceipt",
-        blurb: "Post-action proof: what changed, a before/after diff, and an undo. The receipt is where trust starts.",
+        blurb: "Shows what the agent actually changed after it acts, as a before-and-after diff with an undo. People trust an action more when they can see exactly what it did.",
         code: `<ActionReceipt
   summary="Repriced 3 invoices to the updated rate"
   changes={changes}
