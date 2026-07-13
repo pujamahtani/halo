@@ -14,7 +14,7 @@ import { GenerationState } from "./components/GenerationState/GenerationState";
 import { ActivityTimeline, type ActivityEntry } from "./components/ActivityTimeline/ActivityTimeline";
 import { CodeBlock } from "./demo/CodeBlock";
 import { SECTIONS, V2_ITEMS } from "./demo/registry";
-import { Sun, Moon, Package, LayoutGrid, Rocket, ArrowLeftRight, Network, Gauge, Smartphone, Sparkles, CircleDot } from "lucide-react";
+import { Sun, Moon, Package, LayoutGrid, Rocket, ArrowLeftRight, Network, Gauge, Smartphone, Sparkles, CircleDot, BadgeCheck } from "lucide-react";
 
 const V2_ICONS: Record<string, typeof Sparkles> = {
   "HandoffState": ArrowLeftRight,
@@ -131,7 +131,7 @@ function renderPreview(id: string): ReactNode {
         <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
           <AIBadge label="AI generated" processingTime={4.2} />
           <AIBadge variant="outlined" label="AI assisted" />
-          <AIBadge variant="ghost" label="Human verified" />
+          <AIBadge variant="ghost" label="Human verified" icon={BadgeCheck} />
         </div>
       );
     case "generation-state":
@@ -182,6 +182,16 @@ function renderPreview(id: string): ReactNode {
 }
 
 /* ---------- chrome ---------- */
+
+// GitHub's octocat is a brand mark that Lucide does not ship. It is the one
+// intentional non-Lucide icon on the page.
+function GithubMark({ size = 15 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  );
+}
 
 function Logo({ size = 26 }: { size?: number }) {
   const theme = useHaloTheme();
@@ -248,6 +258,8 @@ function Sidebar({ activeId }: { activeId: string }) {
                     marginLeft: "-2px",
                     transition: "color .12s ease",
                   }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = theme.colors.textSecondary; }}
+                  onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = theme.colors.textMuted; }}
                 >
                   {item.name}
                 </a>
@@ -308,7 +320,7 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             <span style={{ fontSize: "11px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 7px", marginLeft: "2px" }}>v0.1</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-            <TopBarLink href={GITHUB_URL}>GitHub</TopBarLink>
+            <TopBarLink href={GITHUB_URL}><GithubMark size={15} />GitHub</TopBarLink>
             <TopBarLink href={NPM_URL}><Package size={15} strokeWidth={1.75} />npm</TopBarLink>
             <ThemeToggle dark={dark} onToggle={onToggle} />
           </div>
@@ -332,6 +344,7 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             </div>
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
+                <GithubMark size={15} />
                 View on GitHub
               </a>
               <a href="#confidence" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
@@ -395,7 +408,7 @@ export function App() {
               {V2_ITEMS.map((item) => {
                 const Icon = V2_ICONS[item.name] ?? Sparkles;
                 return (
-                  <div key={item.name} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}` }}>
+                  <div key={item.name} onMouseEnter={(e) => { e.currentTarget.style.borderColor = theme.colors.borderStrong; e.currentTarget.style.transform = "translateY(-1px)"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = theme.colors.border; e.currentTarget.style.transform = "translateY(0)"; }} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}`, transition: "border-color .15s ease, transform .15s ease" }}>
                     <Icon size={16} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "8px" }} />
                     <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
                     <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>

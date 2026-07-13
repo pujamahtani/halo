@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles, type LucideIcon } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -7,6 +7,9 @@ export interface AIBadgeProps {
   variant?: "filled" | "outlined" | "ghost";
   size?: "sm" | "md";
   showIcon?: boolean;
+  /** Icon to show. Defaults to a sparkle; pass a different one for
+   *  non-AI states like human-verified content. */
+  icon?: LucideIcon;
   processingTime?: number;
   className?: string;
 }
@@ -16,10 +19,12 @@ export function AIBadge({
   variant = "filled",
   size = "md",
   showIcon = true,
+  icon,
   processingTime,
   className,
 }: AIBadgeProps) {
   const theme = useHaloTheme();
+  const Icon = icon ?? Sparkles;
 
   const sizes = {
     sm: { fontSize: "11px", padding: "2px 7px", gap: "4px", iconSize: 10 },
@@ -64,7 +69,7 @@ export function AIBadge({
         ...v,
       }}
     >
-      {showIcon && <Sparkles size={s.iconSize} strokeWidth={2} style={{ flexShrink: 0 }} />}
+      {showIcon && <Icon size={s.iconSize} strokeWidth={2} style={{ flexShrink: 0 }} />}
       {label}
       {processingTime !== undefined && (
         <span
