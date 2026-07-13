@@ -24,8 +24,8 @@ export const SECTIONS: PillarSection[] = [
         blurb: "How sure the AI is, as a score, a multi-dimension breakdown, an inline pill, or a plain disclaimer.",
         code: `<ConfidenceIndicator
   variant="score"
-  score={0.87}
-  explanation="Based on 847 similar cases."
+  score={0.91}
+  explanation="Exact match between contract v4 and the flagged invoices."
 />`,
       },
       {
@@ -35,7 +35,12 @@ export const SECTIONS: PillarSection[] = [
         code: `<SourceCitation
   variant="panel"
   sources={[
-    { title: "Clinical Guidelines 2026", url, type: "document", relevance: 0.95 },
+    {
+      title: "Master Services Agreement v4",
+      url,
+      type: "document",
+      snippet: "Effective March 1, the rate increases to $145/hr.",
+    },
   ]}
 />`,
       },
@@ -83,12 +88,13 @@ export const SECTIONS: PillarSection[] = [
       {
         id: "response-actions",
         name: "ResponseActions",
-        blurb: "The controls under an AI answer: accept, dismiss, retry, copy, structured feedback, and follow-ups.",
+        blurb: "The controls under an AI answer: copy, regenerate, thumbs feedback, plus context actions and follow-ups.",
         code: `<ResponseActions
   variant="bar"
-  onAccept={accept}
-  onDismiss={dismiss}
   onCopy={copy}
+  onRetry={regenerate}
+  onGood={() => rate("up")}
+  onBad={() => rate("down")}
 />`,
       },
     ],
@@ -96,13 +102,13 @@ export const SECTIONS: PillarSection[] = [
   {
     id: "control",
     label: "Control",
-    blurb: "Supervise agents while they act. Most products have nothing here, which is exactly where people stop trusting the feature.",
+    blurb: "Supervise an agent while it acts: approve what it wants to do, tune how much it can do alone, and watch its progress. Most products stop before this point.",
     items: [
       {
         id: "agent-status",
         name: "AgentStatus",
         blurb: "A live read on the agent: idle, working, needs input, done, or failed. Full row or compact pill.",
-        code: `<AgentStatus state="working" label="Cross-referencing 3 contracts" elapsed={12} />`,
+        code: `<AgentStatus state="working" label="Repricing 3 invoices to the contract v4 rate" elapsed={12} />`,
       },
       {
         id: "approval",
@@ -127,7 +133,7 @@ export const SECTIONS: PillarSection[] = [
   {
     id: "reversibility",
     label: "Reversibility",
-    blurb: "Let people undo and recover when the AI gets it wrong. It is the trust feature developers ask for most.",
+    blurb: "Let people undo and recover when the agent gets it wrong. Nothing rebuilds trust faster than a reliable undo.",
     items: [
       {
         id: "activity",

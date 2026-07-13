@@ -17,6 +17,9 @@ export interface SuggestionCardProps {
   currentTone?: string;
   before?: string;
   after?: string;
+  /** Verb for the primary action. Editor surfaces often prefer
+   *  "Replace" or "Insert" over the generic "Accept". */
+  acceptLabel?: string;
   onAccept?: () => void;
   onDismiss?: () => void;
   onRegenerate?: (tone?: string) => void;
@@ -28,6 +31,7 @@ function InlineDiffVariant({
   diffs,
   showChanges,
   setShowChanges,
+  acceptLabel,
   onAccept,
   onDismiss,
   theme,
@@ -35,6 +39,7 @@ function InlineDiffVariant({
   diffs: TextDiff[];
   showChanges: boolean;
   setShowChanges: (v: boolean) => void;
+  acceptLabel: string;
   onAccept?: () => void;
   onDismiss?: () => void;
   theme: ReturnType<typeof useHaloTheme>;
@@ -114,7 +119,7 @@ function InlineDiffVariant({
           }}
         >
           <Check size={12} strokeWidth={2} aria-hidden="true" />
-          Accept
+          {acceptLabel}
         </button>
         <button
           onClick={onDismiss}
@@ -203,6 +208,16 @@ function SuggestionListVariant({
                 fontFamily: theme.font.sans,
                 lineHeight: 1.4,
                 transition: "border-color 0.15s, background-color 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                if (isSelected) return;
+                (e.currentTarget as HTMLElement).style.borderColor = theme.colors.borderStrong;
+                (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.surface;
+              }}
+              onMouseLeave={(e) => {
+                if (isSelected) return;
+                (e.currentTarget as HTMLElement).style.borderColor = theme.colors.border;
+                (e.currentTarget as HTMLElement).style.backgroundColor = theme.colors.background;
               }}
             >
               {isSelected && (
@@ -359,6 +374,7 @@ export function SuggestionCard({
   currentTone,
   before = "",
   after = "",
+  acceptLabel = "Accept",
   onAccept,
   onDismiss,
   onRegenerate,
@@ -375,6 +391,7 @@ export function SuggestionCard({
           diffs={diffs}
           showChanges={showChanges}
           setShowChanges={setShowChanges}
+          acceptLabel={acceptLabel}
           onAccept={onAccept}
           onDismiss={onDismiss}
           theme={theme}

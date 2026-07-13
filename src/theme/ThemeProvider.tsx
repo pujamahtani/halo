@@ -9,9 +9,23 @@ const BASE_CSS = `
 .halo-btn:hover{box-shadow:inset 0 0 0 999px rgba(130,130,130,0.12)}
 .halo-btn:active{transform:translateY(0.5px);box-shadow:inset 0 0 0 999px rgba(130,130,130,0.20)}
 .halo-btn:disabled{opacity:.5;cursor:default;box-shadow:none;transform:none}
+.halo-shimmer{
+--halo-shimmer-base:currentColor;
+--halo-shimmer-hi:currentColor;
+background-image:linear-gradient(90deg,var(--halo-shimmer-base) 0%,var(--halo-shimmer-base) 35%,var(--halo-shimmer-hi) 50%,var(--halo-shimmer-base) 65%,var(--halo-shimmer-base) 100%);
+background-size:200% 100%;
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+-webkit-text-fill-color:transparent;
+animation:halo-shimmer-text 1.6s linear infinite;
+}
+@keyframes halo-shimmer-text{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@keyframes halo-pulse-soft{0%,100%{opacity:1}50%{opacity:.45}}
 @media (prefers-reduced-motion: reduce){
 .halo-anim{animation:none !important}
 .halo-btn{transition:none}
+.halo-shimmer{animation:none;background:none;-webkit-text-fill-color:var(--halo-shimmer-hi);color:var(--halo-shimmer-hi)}
 }
 `;
 
@@ -35,6 +49,7 @@ export interface HaloTheme {
     surfaceRaised: string;
     border: string;
     borderStrong: string;
+    info: string;
     success: string;
     warning: string;
     error: string;
@@ -60,6 +75,7 @@ export const defaultTheme: HaloTheme = {
     surfaceRaised: "#f4f4f5",
     border: "#e4e4e7",
     borderStrong: "#d4d4d8",
+    info: "#3b82f6",
     success: "#22c55e",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -85,6 +101,7 @@ export const darkTheme: HaloTheme = {
     surfaceRaised: "#27272a",
     border: "#27272a",
     borderStrong: "#3f3f46",
+    info: "#60a5fa",
     success: "#4ade80",
     warning: "#fbbf24",
     error: "#f87171",

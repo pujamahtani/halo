@@ -1,4 +1,4 @@
-import { CircleCheck, TriangleAlert, CircleX, CircleAlert } from "lucide-react";
+import { CircleCheck, TriangleAlert, CircleAlert } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -23,9 +23,9 @@ function getLevel(score: number) {
 }
 
 function StatusIcon({ level, size = 14 }: { level: string; size?: number }) {
-  if (level === "high") return <CircleCheck size={size} color="#22c55e" strokeWidth={1.5} aria-hidden="true" />;
-  if (level === "medium") return <TriangleAlert size={size} color="#f59e0b" strokeWidth={1.5} aria-hidden="true" />;
-  return <CircleX size={size} color="#ef4444" strokeWidth={1.5} aria-hidden="true" />;
+  if (level === "high") return <CircleCheck size={size} color="#22c55e" strokeWidth={1.75} aria-hidden="true" />;
+  if (level === "medium") return <TriangleAlert size={size} color="#f59e0b" strokeWidth={1.75} aria-hidden="true" />;
+  return <CircleAlert size={size} color="#ef4444" strokeWidth={1.75} aria-hidden="true" />;
 }
 
 function ScoreVariant({
@@ -37,16 +37,19 @@ function ScoreVariant({
   explanation?: string;
   theme: ReturnType<typeof useHaloTheme>;
 }) {
+  const level = getLevel(score);
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <StatusIcon level={level} size={15} />
         <span
           style={{
-            fontSize: "28px",
+            fontSize: "18px",
             fontWeight: 600,
             color: theme.colors.text,
             fontFamily: theme.font.sans,
             fontVariantNumeric: "tabular-nums",
+            letterSpacing: "-0.01em",
           }}
         >
           {Math.round(score * 100)}%

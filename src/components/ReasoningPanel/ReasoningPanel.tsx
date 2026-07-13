@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Check, LoaderCircle, Clock, ChevronRight, Copy } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
@@ -84,7 +84,16 @@ function LiveVariant({
         }}
       >
         <Spinner />
-        <span style={{ fontWeight: 500 }}>Thinking...</span>
+        <span
+          className="halo-shimmer"
+          style={{
+            fontWeight: 500,
+            ["--halo-shimmer-base"]: theme.colors.textMuted,
+            ["--halo-shimmer-hi"]: theme.colors.text,
+          } as CSSProperties}
+        >
+          Thinking
+        </span>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -105,6 +114,7 @@ function LiveVariant({
               {step.status === "pending" && <ClockIcon color={theme.colors.textMuted} />}
             </div>
             <span
+              className={step.status === "active" ? "halo-shimmer" : undefined}
               style={{
                 flex: 1,
                 fontSize: "12px",
@@ -114,6 +124,12 @@ function LiveVariant({
                     : theme.colors.textSecondary,
                 fontWeight: step.status === "active" ? 500 : 400,
                 lineHeight: 1.4,
+                ...(step.status === "active"
+                  ? ({
+                      ["--halo-shimmer-base"]: theme.colors.textMuted,
+                      ["--halo-shimmer-hi"]: theme.colors.text,
+                    } as CSSProperties)
+                  : {}),
               }}
             >
               {step.label}
@@ -178,13 +194,20 @@ function CollapsedVariant({
           fontFamily: theme.font.sans,
           fontSize: "12px",
           color: theme.colors.textMuted,
+          transition: "color 0.12s ease",
         }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textSecondary; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textMuted; }}
       >
         <ChevronIcon open={open} color={theme.colors.textMuted} />
-        <span style={{ fontWeight: 500 }}>Reasoning complete</span>
-        {totalDuration !== undefined && (
+        <span style={{ fontWeight: 500 }}>
+          {totalDuration !== undefined
+            ? `Thought for ${totalDuration.toFixed(1)}s`
+            : "Show reasoning"}
+        </span>
+        {totalDuration !== undefined && stepCount > 0 && (
           <span style={{ marginLeft: "auto", fontSize: "11px", fontVariantNumeric: "tabular-nums" }}>
-            {stepCount} step{stepCount !== 1 ? "s" : ""} in {totalDuration.toFixed(1)}s
+            {stepCount} step{stepCount !== 1 ? "s" : ""}
           </span>
         )}
       </button>

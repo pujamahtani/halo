@@ -1,4 +1,4 @@
-/* Code blocks — dark panel, monochrome syntax, theme-independent */
+/* Code blocks — theme-aware background and copy controls */
 
 .code-inline {
   display: inline-flex;
@@ -15,7 +15,7 @@
   font-size: var(--text-caption);
   font-family: var(--font-mono);
   font-weight: var(--weight-normal);
-  color: var(--gray-300);
+  color: var(--c-code-fg);
   white-space: nowrap;
   overflow-x: auto;
   letter-spacing: -0.01em;
@@ -49,6 +49,10 @@
   font-size: var(--text-label);
   font-weight: var(--weight-medium);
   cursor: pointer;
+  color: var(--c-code-btn-fg);
+  background: var(--c-code-btn-bg);
+  border: 1px solid var(--c-code-btn-border);
+  border-radius: var(--r-sm);
   transition:
     background var(--t-fast) var(--ease-out),
     color var(--t-fast) var(--ease-out),
@@ -58,16 +62,12 @@
 
 .code-copy-btn--inline {
   flex-shrink: 0;
-  color: var(--gray-500);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r-sm);
   padding: 4px 8px;
 }
 
 .code-copy-btn--inline:hover {
-  color: var(--gray-300);
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--c-text);
+  border-color: var(--c-border-2);
 }
 
 .code-copy-btn--block {
@@ -75,10 +75,6 @@
   top: 8px;
   right: 8px;
   z-index: 1;
-  color: var(--gray-500);
-  background: var(--c-code-btn-bg);
-  border: 1px solid var(--c-code-btn-border);
-  border-radius: var(--r-sm);
   padding: 4px 8px;
   opacity: 0;
 }
@@ -89,8 +85,8 @@
 }
 
 .code-copy-btn--block:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--gray-300);
+  color: var(--c-text);
+  border-color: var(--c-border-2);
 }
 
 @media (max-width: 560px) {

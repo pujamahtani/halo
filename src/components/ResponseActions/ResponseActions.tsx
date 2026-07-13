@@ -32,6 +32,9 @@ export interface ResponseActionsProps {
   onCopy?: () => void;
   onEdit?: () => void;
   onReport?: () => void;
+  onRetry?: () => void;
+  onGood?: () => void;
+  onBad?: () => void;
   className?: string;
 }
 
@@ -49,12 +52,15 @@ function ActionIcon({ name, size = 12 }: { name: string; size?: number }) {
   return <Icon size={size} strokeWidth={1.5} aria-hidden="true" />;
 }
 
-function ToolbarIcon({ icon: Icon, label, onClick, theme }: { icon: LucideIcon; label: string; onClick?: () => void; theme: ReturnType<typeof useHaloTheme> }) {
+function ToolbarIcon({ icon: Icon, label, onClick, active = false, theme }: { icon: LucideIcon; label: string; onClick?: () => void; active?: boolean; theme: ReturnType<typeof useHaloTheme> }) {
+  const restColor = active ? theme.colors.text : theme.colors.textMuted;
   return (
     <button
+      className="halo-btn"
       onClick={onClick}
       title={label}
       aria-label={label}
+      aria-pressed={active}
       style={{
         display: "flex",
         alignItems: "center",
@@ -64,14 +70,13 @@ function ToolbarIcon({ icon: Icon, label, onClick, theme }: { icon: LucideIcon; 
         borderRadius: theme.radius.sm,
         border: "none",
         backgroundColor: "transparent",
-        color: theme.colors.textMuted,
+        color: restColor,
         cursor: "pointer",
-        transition: "color 0.15s",
       }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textSecondary; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.textMuted; }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = theme.colors.text; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = restColor; }}
     >
-      <Icon size={14} strokeWidth={1.5} aria-hidden="true" />
+      <Icon size={14} strokeWidth={1.75} aria-hidden="true" />
     </button>
   );
 }
@@ -86,6 +91,7 @@ function ActionButton({
   const isPrimary = action.variant === "primary";
   return (
     <button
+      className="halo-btn"
       onClick={action.onClick}
       style={{
         display: "inline-flex",
@@ -100,7 +106,6 @@ function ActionButton({
         color: isPrimary ? theme.colors.background : theme.colors.textSecondary,
         cursor: "pointer",
         fontFamily: theme.font.sans,
-        transition: "opacity 0.15s",
       }}
     >
       {action.icon && <ActionIcon name={action.icon} />}
@@ -110,39 +115,51 @@ function ActionButton({
 }
 
 function BarVariant({
-  onAccept,
-  onDismiss,
   onCopy,
+  onRetry,
   onEdit,
+  onGood,
+  onBad,
   onReport,
   theme,
 }: {
-  onAccept?: () => void;
-  onDismiss?: () => void;
   onCopy?: () => void;
+  onRetry?: () => void;
   onEdit?: () => void;
+  onGood?: () => void;
+  onBad?: () => void;
   onReport?: () => void;
   theme: ReturnType<typeof useHaloTheme>;
 }) {
+  const [rated, setRated] = useState<null | "up" | "down">(null);
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "6px",
+        gap: "2px",
         fontFamily: theme.font.sans,
         flexWrap: "wrap",
       }}
     >
-      <ActionButton action={{ label: "Accept", icon: "check", variant: "primary", onClick: onAccept }} theme={theme} />
-      <ActionButton action={{ label: "Dismiss", icon: "x", variant: "secondary", onClick: onDismiss }} theme={theme} />
-      <ActionButton action={{ label: "Retry", icon: "refresh", variant: "secondary" }} theme={theme} />
-
-      <div style={{ width: "1px", height: "20px", backgroundColor: theme.colors.border, margin: "0 2px" }} />
-
-      <ToolbarIcon icon={Pencil} label="Edit" onClick={onEdit} theme={theme} />
       <ToolbarIcon icon={Copy} label="Copy" onClick={onCopy} theme={theme} />
-      <ToolbarIcon icon={Flag} label="Report" onClick={onReport} theme={theme} />
+      <ToolbarIcon icon={RotateCw} label="Regenerate" onClick={onRetry} theme={theme} />
+      <ToolbarIcon
+        icon={ThumbsUp}
+        label="Good response"
+        active={rated === "up"}
+        onClick={() => { setRated((r) => (r === "up" ? null : "up")); onGood?.(); }}
+        theme={theme}
+      />
+      <ToolbarIcon
+        icon={ThumbsDown}
+        label="Bad response"
+        active={rated === "down"}
+        onClick={() => { setRated((r) => (r === "down" ? null : "down")); onBad?.(); }}
+        theme={theme}
+      />
+      {onEdit && <ToolbarIcon icon={Pencil} label="Edit" onClick={onEdit} theme={theme} />}
+      {onReport && <ToolbarIcon icon={Flag} label="Report" onClick={onReport} theme={theme} />}
     </div>
   );
 }
@@ -253,6 +270,7 @@ function FeedbackVariant({
           ))}
         </div>
         <button
+          className="halo-btn"
           onClick={() => onFeedback?.(Array.from(checked))}
           style={{
             marginTop: "10px",
@@ -295,6 +313,7 @@ function FollowUpsVariant({
         {followUps.map((f, i) => (
           <button
             key={i}
+            className="halo-btn"
             onClick={f.onClick}
             style={{
               display: "flex",
@@ -310,7 +329,6 @@ function FollowUpsVariant({
               fontFamily: theme.font.sans,
               textAlign: "left",
               lineHeight: 1.4,
-              transition: "border-color 0.15s",
             }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = theme.colors.borderStrong; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = theme.colors.border; }}
@@ -336,6 +354,9 @@ export function ResponseActions({
   onCopy,
   onEdit,
   onReport,
+  onRetry,
+  onGood,
+  onBad,
   className,
 }: ResponseActionsProps) {
   const theme = useHaloTheme();
@@ -343,7 +364,7 @@ export function ResponseActions({
   return (
     <div className={cn("halo-response-actions", className)}>
       {variant === "bar" && (
-        <BarVariant onAccept={onAccept} onDismiss={onDismiss} onCopy={onCopy} onEdit={onEdit} onReport={onReport} theme={theme} />
+        <BarVariant onCopy={onCopy} onRetry={onRetry} onEdit={onEdit} onGood={onGood} onBad={onBad} onReport={onReport} theme={theme} />
       )}
       {variant === "context" && <ContextVariant actions={actions} theme={theme} />}
       {variant === "feedback" && (

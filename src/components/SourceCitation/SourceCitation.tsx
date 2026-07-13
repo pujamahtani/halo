@@ -177,20 +177,23 @@ function PanelVariant({
                 </>
               )}
             </div>
+            {source.snippet && (
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: theme.colors.textSecondary,
+                  lineHeight: 1.5,
+                  margin: "6px 0 0",
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {source.snippet}
+              </p>
+            )}
           </div>
-          {source.relevance !== undefined && (
-            <span
-              style={{
-                fontSize: "11px",
-                color: theme.colors.textMuted,
-                fontVariantNumeric: "tabular-nums",
-                flexShrink: 0,
-                marginTop: "2px",
-              }}
-            >
-              {Math.round(source.relevance * 100)}%
-            </span>
-          )}
         </a>
       ))}
     </div>
