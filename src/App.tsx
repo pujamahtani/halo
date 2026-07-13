@@ -226,7 +226,7 @@ function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }
         color: theme.colors.textSecondary, cursor: "pointer",
       }}
     >
-      {dark ? <Sun size={15} strokeWidth={1.75} /> : <Moon size={15} strokeWidth={1.75} />}
+      {dark ? <Sun size={17} strokeWidth={1.75} /> : <Moon size={17} strokeWidth={1.75} />}
     </button>
   );
 }
@@ -320,8 +320,8 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             <span style={{ fontSize: "11px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 7px", marginLeft: "2px" }}>v0.1</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-            <TopBarLink href={GITHUB_URL}><GithubMark size={15} />GitHub</TopBarLink>
-            <TopBarLink href={NPM_URL}><Package size={15} strokeWidth={1.75} />npm</TopBarLink>
+            <TopBarLink href={GITHUB_URL}><GithubMark size={17} />GitHub</TopBarLink>
+            <TopBarLink href={NPM_URL}><Package size={17} strokeWidth={1.75} />npm</TopBarLink>
             <ThemeToggle dark={dark} onToggle={onToggle} />
           </div>
         </div>
@@ -344,11 +344,11 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
             </div>
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
-                <GithubMark size={15} />
+                <GithubMark size={17} />
                 View on GitHub
               </a>
               <a href="#confidence" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
-                <LayoutGrid size={14} strokeWidth={1.9} />
+                <LayoutGrid size={16} strokeWidth={1.9} />
                 Browse components
               </a>
             </div>
@@ -356,7 +356,7 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 
           {/* getting started */}
           <section style={{ marginBottom: "48px" }}>
-            <h2 style={{ margin: "0 0 6px", fontSize: "13px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Getting started</h2>
+            <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>Getting started</h2>
             <p style={{ margin: "0 0 14px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6 }}>
               Wrap your app once, then drop components in. No stylesheet to import. Works in the Next.js App Router, and ships with light and dark themes.
             </p>
@@ -386,7 +386,7 @@ export function App() {
 
               {section.items.map((item) => (
                 <section key={item.id} id={item.id} data-halo-anchor style={{ marginBottom: "44px", scrollMarginTop: "72px" }}>
-                  <h3 style={{ margin: "0 0 3px", fontSize: "15px", fontWeight: 600 }}>{item.name}</h3>
+                  <h3 style={{ margin: "0 0 4px", fontSize: "16.5px", fontWeight: 600, letterSpacing: "-0.01em" }}>{item.name}</h3>
                   <p style={{ margin: "0 0 16px", fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "560px" }}>{item.blurb}</p>
                   <div style={canvasStyle}>{renderPreview(item.id)}</div>
                   <CodeBlock code={item.code} />
@@ -398,7 +398,7 @@ export function App() {
           {/* v2 teaser */}
           <section style={{ marginTop: "24px", padding: "28px", borderRadius: theme.radius.lg, border: `1px dashed ${theme.colors.borderStrong}`, backgroundColor: theme.colors.surface }}>
             <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "6px" }}>
-              <Rocket size={13} strokeWidth={1.75} color={theme.colors.textMuted} />
+              <Rocket size={15} strokeWidth={1.75} color={theme.colors.textMuted} />
               <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
             </div>
             <p style={{ margin: "0 0 20px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6, maxWidth: "520px" }}>
@@ -409,7 +409,7 @@ export function App() {
                 const Icon = V2_ICONS[item.name] ?? Sparkles;
                 return (
                   <div key={item.name} onMouseEnter={(e) => { e.currentTarget.style.borderColor = theme.colors.borderStrong; e.currentTarget.style.transform = "translateY(-1px)"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = theme.colors.border; e.currentTarget.style.transform = "translateY(0)"; }} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}`, transition: "border-color .15s ease, transform .15s ease" }}>
-                    <Icon size={16} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "8px" }} />
+                    <Icon size={18} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "9px" }} />
                     <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
                     <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>
                   </div>

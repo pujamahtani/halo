@@ -21,7 +21,7 @@ export interface SourceCitationProps {
 function TypeIcon({ type, color }: { type?: string; color: string }) {
   const map = { document: FileText, database: Database, research: BookOpen, web: Globe, internal: Lock } as const;
   const Icon = map[type as keyof typeof map] ?? FileText;
-  return <Icon size={12} color={color} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0 }} />;
+  return <Icon size={14} color={color} strokeWidth={1.5} aria-hidden="true" style={{ flexShrink: 0 }} />;
 }
 
 function SuperscriptVariant({
@@ -89,7 +89,7 @@ function PillVariant({
         cursor: "pointer",
       }}
     >
-      <FileText size={12} strokeWidth={1.5} aria-hidden="true" />
+      <FileText size={14} strokeWidth={1.5} aria-hidden="true" />
       {sources.length} source{sources.length !== 1 ? "s" : ""}
     </span>
   );

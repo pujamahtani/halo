@@ -27,8 +27,8 @@ export function AIBadge({
   const Icon = icon ?? Sparkles;
 
   const sizes = {
-    sm: { fontSize: "11px", padding: "2px 7px", gap: "4px", iconSize: 10 },
-    md: { fontSize: "12px", padding: "3px 9px", gap: "5px", iconSize: 12 },
+    sm: { fontSize: "11px", padding: "2px 7px", gap: "4px", iconSize: 12 },
+    md: { fontSize: "12px", padding: "3px 9px", gap: "5px", iconSize: 14 },
   };
 
   const variants = {

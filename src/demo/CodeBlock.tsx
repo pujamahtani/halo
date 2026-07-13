@@ -34,7 +34,7 @@ export function CodeBlock({ code, inline = false }: { code: string; inline?: boo
     }
   };
 
-  const icon = copied ? <Check size={12} strokeWidth={2} /> : <Copy size={12} strokeWidth={2} />;
+  const icon = copied ? <Check size={13} strokeWidth={2} /> : <Copy size={13} strokeWidth={2} />;
 
   const copyButton = (extra: CSSProperties) => (
     <button

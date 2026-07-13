@@ -5,10 +5,10 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 // feedback; keyboard focus keeps the browser's default focus ring.
 const BASE_STYLE_ID = "halo-base-styles";
 const BASE_CSS = `
-.halo-btn{transition:opacity .12s ease}
-.halo-btn:hover{opacity:.82}
-.halo-btn:active{opacity:.66}
-.halo-btn:disabled{opacity:.5;cursor:default}
+.halo-btn{transition:box-shadow .12s ease, transform .08s ease}
+.halo-btn:hover{box-shadow:inset 0 0 0 999px rgba(130,130,130,0.12)}
+.halo-btn:active{transform:translateY(0.5px);box-shadow:inset 0 0 0 999px rgba(130,130,130,0.20)}
+.halo-btn:disabled{opacity:.5;cursor:default;box-shadow:none;transform:none}
 @media (prefers-reduced-motion: reduce){
 .halo-anim{animation:none !important}
 .halo-btn{transition:none}
