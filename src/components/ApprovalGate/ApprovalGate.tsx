@@ -1,4 +1,4 @@
-import { Shield, CircleCheck, CircleX } from "lucide-react";
+import { Check, CircleCheck, CircleX, Shield } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -207,18 +207,24 @@ export function ApprovalGate({
             {onModify && (
               <button
                 type="button"
-                className="halo-btn"
+                className="halo-btn-link"
                 onClick={onModify}
                 style={{
                   marginRight: "auto",
                   fontSize: "13px",
                   fontWeight: 500,
-                  color: theme.colors.textSecondary,
+                  color: theme.colors.textMuted,
                   background: "none",
                   border: "none",
                   cursor: "pointer",
                   padding: "6px 4px",
                   fontFamily: theme.font.sans,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = theme.colors.text;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = theme.colors.textMuted;
                 }}
               >
                 Modify
@@ -226,7 +232,7 @@ export function ApprovalGate({
             )}
             <button
               type="button"
-              className="halo-btn"
+              className="halo-btn-outline"
               onClick={onReject}
               style={{
                 fontSize: "13px",
@@ -239,25 +245,41 @@ export function ApprovalGate({
                 cursor: "pointer",
                 fontFamily: theme.font.sans,
               }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.backgroundColor = `${theme.colors.error}0a`;
+                el.style.borderColor = `${theme.colors.error}44`;
+                el.style.color = theme.colors.error;
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.backgroundColor = theme.colors.background;
+                el.style.borderColor = theme.colors.border;
+                el.style.color = theme.colors.textSecondary;
+              }}
             >
               {rejectLabel}
             </button>
             <button
               type="button"
-              className="halo-btn"
+              className="halo-btn-success"
               onClick={onApprove}
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
                 fontSize: "13px",
                 fontWeight: 550,
-                color: theme.colors.background,
-                backgroundColor: theme.colors.text,
-                border: `1px solid ${theme.colors.text}`,
+                color: "#ffffff",
+                backgroundColor: theme.colors.success,
+                border: `1px solid ${theme.colors.success}`,
                 borderRadius: theme.radius.md,
                 padding: "6px 14px",
                 cursor: "pointer",
                 fontFamily: theme.font.sans,
               }}
             >
+              <Check size={14} strokeWidth={2} aria-hidden="true" />
               {approveLabel}
             </button>
           </>

@@ -5,10 +5,20 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 // feedback; keyboard focus keeps the browser's default focus ring.
 const BASE_STYLE_ID = "halo-base-styles";
 const BASE_CSS = `
-.halo-btn{transition:box-shadow .12s ease, transform .08s ease}
-.halo-btn:hover{box-shadow:inset 0 0 0 999px rgba(130,130,130,0.12)}
-.halo-btn:active{transform:translateY(0.5px);box-shadow:inset 0 0 0 999px rgba(130,130,130,0.20)}
-.halo-btn:disabled{opacity:.5;cursor:default;box-shadow:none;transform:none}
+.halo-btn{transition:opacity .15s ease, transform .08s ease, background-color .15s ease, border-color .15s ease, color .15s ease}
+.halo-btn:hover{opacity:.85}
+.halo-btn:active{transform:scale(0.98);opacity:.92}
+.halo-btn:disabled{opacity:.5;cursor:default;transform:none}
+.halo-btn-primary{transition:opacity .15s ease, transform .08s ease}
+.halo-btn-primary:hover{opacity:.88}
+.halo-btn-primary:active{transform:scale(0.98);opacity:.95}
+.halo-btn-success{transition:opacity .15s ease, transform .08s ease, filter .15s ease}
+.halo-btn-success:hover{opacity:.92}
+.halo-btn-success:active{transform:scale(0.98);opacity:.95}
+.halo-btn-outline{transition:background-color .15s ease, border-color .15s ease, transform .08s ease}
+.halo-btn-outline:active{transform:scale(0.98)}
+.halo-btn-link{transition:color .15s ease}
+.halo-btn-link:active{opacity:.75}
 .halo-shimmer{
 --halo-shimmer-base:currentColor;
 --halo-shimmer-hi:currentColor;
@@ -24,7 +34,7 @@ animation:halo-shimmer-text 1.6s linear infinite;
 @keyframes halo-pulse-soft{0%,100%{opacity:1}50%{opacity:.45}}
 @media (prefers-reduced-motion: reduce){
 .halo-anim{animation:none !important}
-.halo-btn{transition:none}
+.halo-btn,.halo-btn-primary,.halo-btn-outline,.halo-btn-link,.halo-btn-success{transition:none}
 .halo-shimmer{animation:none;background:none;-webkit-text-fill-color:var(--halo-shimmer-hi);color:var(--halo-shimmer-hi)}
 }
 `;

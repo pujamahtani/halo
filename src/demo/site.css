@@ -561,22 +561,76 @@
 }
 
 .site-v2-card {
+  position: relative;
   padding: var(--s-4);
   border-radius: var(--r-md);
   background: var(--c-bg);
   border: 1px solid var(--c-border);
-  transition: border-color var(--t-base) var(--ease-out), background var(--t-base) var(--ease-out);
+  transition:
+    border-color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
 }
 
 .site-v2-card:hover {
   border-color: var(--c-border-2);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.site[data-theme="dark"] .site-v2-card:hover {
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.site-v2-card-badge {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  font-size: 10px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-text-3);
   background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-full);
+  padding: 2px 7px;
+  line-height: 1.4;
+}
+
+.site-v2-card-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-sm);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  color: var(--c-text-3);
+  transition:
+    border-color 200ms var(--ease-out),
+    background 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+}
+
+.site-v2-card:hover .site-v2-card-icon-wrap {
+  border-color: var(--c-border-2);
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
 }
 
 .site-v2-card h4 {
   margin: var(--s-2) 0 var(--s-1);
   font-size: var(--text-caption);
   font-weight: var(--weight-semibold);
+  transition: color 200ms var(--ease-out);
+}
+
+.site-v2-card:hover h4 {
+  color: var(--c-text);
 }
 
 .site-v2-card p {
@@ -584,6 +638,11 @@
   font-size: var(--text-caption);
   color: var(--c-text-3);
   line-height: var(--leading-snug);
+  transition: color 200ms var(--ease-out);
+}
+
+.site-v2-card:hover p {
+  color: var(--c-text-2);
 }
 
 .site-v2-foot {
@@ -672,6 +731,14 @@
   .site-canvas,
   .site-footer a {
     transition: none;
+  }
+
+  .site-v2-card:hover {
+    box-shadow: none;
+  }
+
+  .site-v2-card:hover .site-v2-card-icon-wrap {
+    color: inherit;
   }
 
   .site-btn:active,

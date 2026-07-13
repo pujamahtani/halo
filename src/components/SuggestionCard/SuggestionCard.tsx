@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, RotateCw } from "lucide-react";
+import { ArrowRight, Check, RotateCw } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -103,6 +103,7 @@ function InlineDiffVariant({
       >
         <button
           onClick={onAccept}
+          className="halo-btn-primary"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -123,6 +124,7 @@ function InlineDiffVariant({
         </button>
         <button
           onClick={onDismiss}
+          className="halo-btn-outline"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -136,6 +138,18 @@ function InlineDiffVariant({
             color: theme.colors.textSecondary,
             cursor: "pointer",
             fontFamily: theme.font.sans,
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget;
+            el.style.backgroundColor = theme.colors.surfaceRaised;
+            el.style.borderColor = theme.colors.borderStrong;
+            el.style.color = theme.colors.text;
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget;
+            el.style.backgroundColor = "transparent";
+            el.style.borderColor = theme.colors.border;
+            el.style.color = theme.colors.textSecondary;
           }}
         >
           Dismiss
@@ -293,34 +307,47 @@ function DiffCardVariant({
   after: string;
   theme: ReturnType<typeof useHaloTheme>;
 }) {
+  const pill = (label: string, tone: "muted" | "success") => ({
+    display: "inline-block" as const,
+    fontSize: "10px",
+    fontWeight: 600,
+    letterSpacing: "0.05em",
+    textTransform: "uppercase" as const,
+    padding: "2px 8px",
+    borderRadius: "999px",
+    marginBottom: "10px",
+    ...(tone === "muted"
+      ? {
+          color: theme.colors.textMuted,
+          backgroundColor: theme.colors.surfaceRaised,
+          border: `1px solid ${theme.colors.border}`,
+        }
+      : {
+          color: theme.colors.success,
+          backgroundColor: `${theme.colors.success}14`,
+          border: `1px solid ${theme.colors.success}33`,
+        }),
+  });
+
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "12px",
+        gridTemplateColumns: "1fr auto 1fr",
+        alignItems: "stretch",
+        gap: "8px",
         fontFamily: theme.font.sans,
       }}
     >
       <div
         style={{
-          padding: "12px 14px",
+          padding: "14px",
           borderRadius: theme.radius.md,
           border: `1px solid ${theme.colors.border}`,
+          backgroundColor: theme.colors.background,
         }}
       >
-        <div
-          style={{
-            fontSize: "10px",
-            fontWeight: 500,
-            color: theme.colors.textMuted,
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            marginBottom: "8px",
-          }}
-        >
-          Current
-        </div>
+        <span style={pill("Current", "muted")}>Current</span>
         <div
           style={{
             fontSize: "13px",
@@ -331,31 +358,35 @@ function DiffCardVariant({
           {before}
         </div>
       </div>
+
       <div
         style={{
-          padding: "12px 14px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: theme.colors.textMuted,
+          paddingTop: "28px",
+        }}
+        aria-hidden="true"
+      >
+        <ArrowRight size={14} strokeWidth={1.75} />
+      </div>
+
+      <div
+        style={{
+          padding: "14px",
           borderRadius: theme.radius.md,
-          border: `1px solid ${theme.colors.border}`,
-          backgroundColor: theme.colors.surface,
+          border: `1px solid ${theme.colors.success}40`,
+          backgroundColor: `${theme.colors.success}0a`,
         }}
       >
-        <div
-          style={{
-            fontSize: "10px",
-            fontWeight: 500,
-            color: theme.colors.textMuted,
-            textTransform: "uppercase",
-            letterSpacing: "0.5px",
-            marginBottom: "8px",
-          }}
-        >
-          Suggested
-        </div>
+        <span style={pill("Suggested", "success")}>Suggested</span>
         <div
           style={{
             fontSize: "13px",
             color: theme.colors.text,
             lineHeight: 1.6,
+            fontWeight: 500,
           }}
         >
           {after}

@@ -352,7 +352,10 @@ export function App() {
                 const Icon = V2_ICONS[item.name] ?? Sparkles;
                 return (
                   <div key={item.name} className="site-v2-card">
-                    <Icon size={ICON} strokeWidth={STROKE} color="var(--c-text-3)" />
+                    <span className="site-v2-card-badge">Soon</span>
+                    <div className="site-v2-card-icon-wrap">
+                      <Icon size={ICON} strokeWidth={STROKE} />
+                    </div>
                     <h4>{item.name}</h4>
                     <p>{item.blurb}</p>
                   </div>
