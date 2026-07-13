@@ -46,7 +46,7 @@ export function ReviewStep() {
         confidence={0.91}
         details={[
           { label: "Invoices", value: "#1043, #1044, #1047" },
-          { label: "Total delta", value: "+$1,850.00" },
+          { label: "Total delta", value: "+$750.00" },
         ]}
         onApprove={reprice}
         onReject={dismiss}
@@ -73,7 +73,7 @@ export function ReviewStep() {
 |---|---|
 | `GenerationState` | Content being produced: a streaming caret, a skeleton, or an error with retry. |
 | `SuggestionCard` | An AI edit to accept or dismiss: inline diff, a list with tone control, or side by side. |
-| `ResponseActions` | The controls under a response: accept, dismiss, retry, copy, feedback, and follow-ups. |
+| `ResponseActions` | The controls under a response: copy, regenerate, and thumbs feedback, plus context actions and follow-ups. |
 
 ### Control
 

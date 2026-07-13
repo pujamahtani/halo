@@ -141,9 +141,6 @@ function LiveVariant({
                   color: theme.colors.textMuted,
                   fontVariantNumeric: "tabular-nums",
                   flexShrink: 0,
-                  ...(step.status === "active"
-                    ? { animation: "halo-pulse 1.5s ease-in-out infinite" }
-                    : {}),
                 }}
               >
                 {step.duration.toFixed(1)}s
@@ -152,7 +149,6 @@ function LiveVariant({
           </div>
         ))}
       </div>
-      <style>{`@keyframes halo-pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.4 } }`}</style>
     </div>
   );
 }
