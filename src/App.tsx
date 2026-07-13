@@ -284,7 +284,7 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
               Twelve React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.
             </p>
             <div className="site-hero-install">
-              <CodeBlock code="npm i @pujamahtani/halo" inline />
+              <CodeBlock code="npm i @pujamahtani/halo" inline dark={dark} />
             </div>
             <div className="site-hero-actions">
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="site-btn site-btn-primary">
@@ -316,7 +316,7 @@ export function App() {
       />
     </HaloProvider>
   );
-}`} />
+}`} dark={dark} />
           </section>
 
           {SECTIONS.map((section) => (
@@ -331,7 +331,7 @@ export function App() {
                   <h3>{item.name}</h3>
                   <p className="site-component-desc">{item.blurb}</p>
                   <div className="site-canvas">{renderPreview(item.id)}</div>
-                  <CodeBlock code={item.code} />
+                  <CodeBlock code={item.code} dark={dark} />
                 </section>
               ))}
             </div>
