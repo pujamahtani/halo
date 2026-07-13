@@ -166,19 +166,8 @@
   color: inherit;
 }
 
-.site-logo {
-  width: 20px;
-  height: 20px;
-  border-radius: var(--r-full);
-  background: var(--c-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .site-name {
-  font-size: var(--text-caption);
+  font-size: var(--text-body);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-snug);
 }
