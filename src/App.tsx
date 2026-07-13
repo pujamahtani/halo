@@ -226,7 +226,7 @@ function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }
         color: theme.colors.textSecondary, cursor: "pointer",
       }}
     >
-      {dark ? <Sun size={17} strokeWidth={1.75} /> : <Moon size={17} strokeWidth={1.75} />}
+      {dark ? <Sun size={18} strokeWidth={1.75} /> : <Moon size={18} strokeWidth={1.75} />}
     </button>
   );
 }
@@ -237,7 +237,7 @@ function Sidebar({ activeId }: { activeId: string }) {
     <nav aria-label="Components" style={{ position: "sticky", top: "80px", alignSelf: "flex-start", width: "196px", flexShrink: 0, fontFamily: theme.font.sans }}>
       {SECTIONS.map((section) => (
         <div key={section.id} style={{ marginBottom: "18px" }}>
-          <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted, marginBottom: "8px" }}>
+          <div style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted, marginBottom: "8px" }}>
             {section.label}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
@@ -316,12 +316,12 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
         <div style={{ maxWidth: "1040px", margin: "0 auto", height: "56px", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
             <Logo />
-            <span style={{ fontSize: "16px", fontWeight: 600, letterSpacing: "-0.02em" }}>Halo</span>
-            <span style={{ fontSize: "11px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 7px", marginLeft: "2px" }}>v0.1</span>
+            <span style={{ fontSize: "15px", fontWeight: 600, letterSpacing: "-0.02em" }}>Halo</span>
+            <span style={{ fontSize: "12px", color: theme.colors.textMuted, border: `1px solid ${theme.colors.border}`, borderRadius: "999px", padding: "1px 8px", marginLeft: "2px" }}>v0.1</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
-            <TopBarLink href={GITHUB_URL}><GithubMark size={17} />GitHub</TopBarLink>
-            <TopBarLink href={NPM_URL}><Package size={17} strokeWidth={1.75} />npm</TopBarLink>
+            <TopBarLink href={GITHUB_URL}><GithubMark size={18} />GitHub</TopBarLink>
+            <TopBarLink href={NPM_URL}><Package size={18} strokeWidth={1.75} />npm</TopBarLink>
             <ThemeToggle dark={dark} onToggle={onToggle} />
           </div>
         </div>
@@ -333,21 +333,21 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
         <main style={{ flex: 1, minWidth: 0, maxWidth: "720px", padding: "48px 0 96px" }}>
           {/* hero */}
           <header style={{ marginBottom: "40px" }}>
-            <h1 style={{ margin: "0 0 14px", fontSize: "34px", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.1 }}>
+            <h1 style={{ margin: "0 0 16px", fontSize: "30px", fontWeight: 600, letterSpacing: "-0.021em", lineHeight: 1.2 }}>
               A trust layer for AI interfaces
             </h1>
-            <p style={{ margin: "0 0 22px", fontSize: "16px", lineHeight: 1.6, color: theme.colors.textSecondary, maxWidth: "560px" }}>
+            <p style={{ margin: "0 0 24px", fontSize: "16px", lineHeight: 1.6, color: theme.colors.textSecondary, maxWidth: "560px" }}>
               Twelve React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.
             </p>
             <div style={{ marginBottom: "16px" }}>
               <CodeBlock code="npm i @pujamahtani/halo" inline />
             </div>
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
-                <GithubMark size={17} />
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 550, color: theme.colors.background, backgroundColor: theme.colors.text, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
+                <GithubMark size={16} />
                 View on GitHub
               </a>
-              <a href="#confidence" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "7px", fontSize: "13px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
+              <a href="#confidence" className="halo-btn" style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 500, color: theme.colors.textSecondary, border: `1px solid ${theme.colors.border}`, borderRadius: theme.radius.md, padding: "8px 16px", textDecoration: "none" }}>
                 <LayoutGrid size={16} strokeWidth={1.9} />
                 Browse components
               </a>
@@ -356,8 +356,8 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 
           {/* getting started */}
           <section style={{ marginBottom: "48px" }}>
-            <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>Getting started</h2>
-            <p style={{ margin: "0 0 14px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6 }}>
+            <h2 style={{ margin: "0 0 6px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.014em" }}>Getting started</h2>
+            <p style={{ margin: "0 0 16px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6 }}>
               Wrap your app once, then drop components in. No stylesheet to import. Works in the Next.js App Router, and ships with light and dark themes.
             </p>
             <CodeBlock code={`import { HaloProvider, ApprovalGate } from "@pujamahtani/halo";
@@ -380,14 +380,14 @@ export function App() {
           {SECTIONS.map((section) => (
             <div key={section.id}>
               <div style={{ margin: "0 0 24px", paddingTop: "8px" }}>
-                <h2 style={{ margin: "0 0 4px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.01em" }}>{section.label}</h2>
-                <p style={{ margin: 0, fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "520px" }}>{section.blurb}</p>
+                <h2 style={{ margin: "0 0 6px", fontSize: "20px", fontWeight: 600, letterSpacing: "-0.014em" }}>{section.label}</h2>
+                <p style={{ margin: 0, fontSize: "14px", color: theme.colors.textMuted, lineHeight: 1.6, maxWidth: "540px" }}>{section.blurb}</p>
               </div>
 
               {section.items.map((item) => (
                 <section key={item.id} id={item.id} data-halo-anchor style={{ marginBottom: "44px", scrollMarginTop: "72px" }}>
-                  <h3 style={{ margin: "0 0 4px", fontSize: "16.5px", fontWeight: 600, letterSpacing: "-0.01em" }}>{item.name}</h3>
-                  <p style={{ margin: "0 0 16px", fontSize: "13.5px", color: theme.colors.textMuted, lineHeight: 1.5, maxWidth: "560px" }}>{item.blurb}</p>
+                  <h3 style={{ margin: "0 0 5px", fontSize: "16px", fontWeight: 600, letterSpacing: "-0.006em" }}>{item.name}</h3>
+                  <p style={{ margin: "0 0 16px", fontSize: "14px", color: theme.colors.textMuted, lineHeight: 1.6, maxWidth: "560px" }}>{item.blurb}</p>
                   <div style={canvasStyle}>{renderPreview(item.id)}</div>
                   <CodeBlock code={item.code} />
                 </section>
@@ -398,8 +398,8 @@ export function App() {
           {/* v2 teaser */}
           <section style={{ marginTop: "24px", padding: "28px", borderRadius: theme.radius.lg, border: `1px dashed ${theme.colors.borderStrong}`, backgroundColor: theme.colors.surface }}>
             <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "6px" }}>
-              <Rocket size={15} strokeWidth={1.75} color={theme.colors.textMuted} />
-              <span style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
+              <Rocket size={14} strokeWidth={1.75} color={theme.colors.textMuted} />
+              <span style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: theme.colors.textMuted }}>Coming in v2</span>
             </div>
             <p style={{ margin: "0 0 20px", fontSize: "14px", color: theme.colors.textSecondary, lineHeight: 1.6, maxWidth: "520px" }}>
               v1 covers a single agent working alongside one person. Next comes the harder part: many agents at once, and the people who have to supervise them at scale.
@@ -409,21 +409,21 @@ export function App() {
                 const Icon = V2_ICONS[item.name] ?? Sparkles;
                 return (
                   <div key={item.name} onMouseEnter={(e) => { e.currentTarget.style.borderColor = theme.colors.borderStrong; e.currentTarget.style.transform = "translateY(-1px)"; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = theme.colors.border; e.currentTarget.style.transform = "translateY(0)"; }} style={{ padding: "14px 16px", borderRadius: theme.radius.md, backgroundColor: theme.colors.background, border: `1px solid ${theme.colors.border}`, transition: "border-color .15s ease, transform .15s ease" }}>
-                    <Icon size={18} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "9px" }} />
-                    <div style={{ fontSize: "13.5px", fontWeight: 600, marginBottom: "3px" }}>{item.name}</div>
-                    <div style={{ fontSize: "12.5px", color: theme.colors.textMuted, lineHeight: 1.5 }}>{item.blurb}</div>
+                    <Icon size={20} strokeWidth={1.75} color={theme.colors.textSecondary} style={{ marginBottom: "10px" }} />
+                    <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: "4px" }}>{item.name}</div>
+                    <div style={{ fontSize: "13px", color: theme.colors.textMuted, lineHeight: 1.55 }}>{item.blurb}</div>
                   </div>
                 );
               })}
             </div>
-            <p style={{ margin: "18px 0 0", fontSize: "12.5px", color: theme.colors.textMuted }}>
+            <p style={{ margin: "20px 0 0", fontSize: "12px", color: theme.colors.textMuted }}>
               Star the repo to follow along.{" "}
               <a href={GITHUB_URL} target="_blank" rel="noreferrer" style={{ color: theme.colors.textSecondary }}>github.com/pujamahtani/halo</a>
             </p>
           </section>
 
           {/* footer */}
-          <footer style={{ marginTop: "56px", paddingTop: "20px", borderTop: `1px solid ${theme.colors.border}`, fontSize: "12.5px", color: theme.colors.textMuted, display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <footer style={{ marginTop: "56px", paddingTop: "20px", borderTop: `1px solid ${theme.colors.border}`, fontSize: "13px", color: theme.colors.textMuted, display: "flex", gap: "8px", flexWrap: "wrap" }}>
             <span>Built by <a href="https://pujamahtani.com" target="_blank" rel="noreferrer" style={{ color: theme.colors.textSecondary, textDecoration: "none" }}>Puja Mahtani</a></span>
             <span>·</span>
             <span>MIT licensed</span>
