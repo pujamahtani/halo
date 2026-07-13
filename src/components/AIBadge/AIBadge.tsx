@@ -69,7 +69,7 @@ export function AIBadge({
         ...v,
       }}
     >
-      {showIcon && <Icon size={s.iconSize} strokeWidth={2} style={{ flexShrink: 0 }} />}
+      {showIcon && <Icon size={s.iconSize} strokeWidth={1.75} style={{ flexShrink: 0 }} />}
       {label}
       {processingTime !== undefined && (
         <span

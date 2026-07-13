@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -16,10 +17,10 @@ export interface AgentStatusProps {
 
 const STATE_META: Record<
   AgentState,
-  { text: string; token: "textMuted" | "warning" | "success" | "error"; pulse: boolean }
+  { text: string; token: "textMuted" | "info" | "warning" | "success" | "error"; pulse: boolean }
 > = {
   idle: { text: "Idle", token: "textMuted", pulse: false },
-  working: { text: "Working", token: "warning", pulse: true },
+  working: { text: "Working", token: "info", pulse: true },
   "needs-input": { text: "Needs your input", token: "warning", pulse: true },
   done: { text: "Done", token: "success", pulse: false },
   error: { text: "Failed", token: "error", pulse: false },
@@ -36,6 +37,11 @@ export function AgentStatus({ state, label, elapsed, variant = "row", className 
   const theme = useHaloTheme();
   const meta = STATE_META[state];
   const color = theme.colors[meta.token];
+  const working = state === "working";
+  const shimmerVars = {
+    ["--halo-shimmer-base"]: theme.colors.textMuted,
+    ["--halo-shimmer-hi"]: theme.colors.text,
+  } as CSSProperties;
 
   const dot = (
     <span style={{ position: "relative", display: "inline-flex", width: "8px", height: "8px", flexShrink: 0 }}>
@@ -79,7 +85,11 @@ export function AgentStatus({ state, label, elapsed, variant = "row", className 
       >
         {keyframes}
         {dot}
-        {label ?? meta.text}
+        {working ? (
+          <span className="halo-shimmer" style={shimmerVars}>{label ?? meta.text}</span>
+        ) : (
+          label ?? meta.text
+        )}
       </span>
     );
   }
@@ -97,7 +107,12 @@ export function AgentStatus({ state, label, elapsed, variant = "row", className 
     >
       {keyframes}
       {dot}
-      <span style={{ fontSize: "13px", fontWeight: 550, color: theme.colors.text }}>{meta.text}</span>
+      <span
+        className={working ? "halo-shimmer" : undefined}
+        style={{ fontSize: "13px", fontWeight: 550, color: theme.colors.text, ...(working ? shimmerVars : {}) }}
+      >
+        {meta.text}
+      </span>
       {label && (
         <span style={{ fontSize: "13px", color: theme.colors.textMuted, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {label}

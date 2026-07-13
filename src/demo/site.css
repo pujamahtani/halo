@@ -274,7 +274,7 @@
 .site-main {
   flex: 1;
   min-width: 0;
-  padding: var(--s-10) 0 var(--s-20);
+  padding: var(--s-10) 0 var(--s-8);
 }
 
 /* ── Sidebar nav ── */

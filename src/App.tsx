@@ -35,16 +35,16 @@ const GITHUB_URL = "https://github.com/pujamahtani/halo";
 const NPM_URL = "https://www.npmjs.com/package/@pujamahtani/halo";
 
 const sampleSources = [
-  { title: "Clinical Guidelines 2026", url: "#", type: "document" as const, domain: "guidelines.health.org", relevance: 0.95 },
-  { title: "Lab Results Analysis Framework", url: "#", type: "database" as const, domain: "847 records matched", relevance: 0.82 },
-  { title: "Healthcare Cost Optimization Study", url: "#", type: "research" as const, domain: "pubmed.gov", relevance: 0.71 },
+  { title: "Master Services Agreement v4", url: "#", type: "document" as const, domain: "contracts.acme.internal", snippet: "Effective March 1, the blended professional-services rate increases from $120 to $145 per hour." },
+  { title: "Unbilled invoices, current cycle", url: "#", type: "database" as const, domain: "24 invoices matched", snippet: "Three invoices were generated before the rate change and still bill at the prior $120 rate." },
+  { title: "Billing reconciliation policy", url: "#", type: "internal" as const, domain: "finance.acme.internal", snippet: "Rate corrections may be applied automatically to unsent invoices; sent invoices require finance approval." },
 ];
 
 const sampleSteps = [
-  { label: "Analyzed 24 months of patient history", status: "complete" as const, duration: 1.2 },
-  { label: "Cross-referenced 3 clinical protocols", status: "complete" as const, duration: 2.8 },
-  { label: "Evaluating cost impact...", status: "active" as const, duration: 3.1 },
-  { label: "Generate final recommendation", status: "pending" as const },
+  { label: "Parsed contract v4 for rate changes", status: "complete" as const, duration: 0.8 },
+  { label: "Compared 24 invoices in the current cycle", status: "complete" as const, duration: 2.1 },
+  { label: "Flagging invoices still on the old rate", status: "active" as const, duration: 1.4 },
+  { label: "Draft the corrected invoice amounts", status: "pending" as const },
 ];
 
 const initialActivity: ActivityEntry[] = [
@@ -66,7 +66,7 @@ function ApprovalGateDemo() {
       details={[
         { label: "Invoices", value: "#1043, #1044, #1047" },
         { label: "Rate change", value: "$120 → $145 / hr" },
-        { label: "Total delta", value: "+$1,850.00" },
+        { label: "Total delta", value: "+$750.00" },
       ]}
       onApprove={() => setStatus("approved")}
       onReject={() => setStatus("rejected")}
@@ -114,18 +114,23 @@ function renderPreview(id: string): ReactNode {
     case "confidence":
       return (
         <div className="site-stack">
-          <ConfidenceIndicator variant="score" score={0.87} explanation="Based on 847 similar cases with statistically significant outcomes." />
+          <ConfidenceIndicator variant="score" score={0.91} explanation="The rate change and the three affected invoices are an exact match. Only their send status needs a human check." />
           <ConfidenceIndicator variant="dimensions" dimensions={[
-            { label: "Accuracy", score: 0.92 },
-            { label: "Relevance", score: 0.85 },
-            { label: "Completeness", score: 0.58 },
+            { label: "Rate match", score: 0.98 },
+            { label: "Invoice coverage", score: 0.88 },
+            { label: "Send-status certainty", score: 0.54 },
           ]} />
         </div>
       );
     case "sources":
       return <SourceCitation sources={sampleSources} variant="panel" />;
     case "reasoning":
-      return <ReasoningPanel variant="collapsed" steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))} totalDuration={7.1} defaultOpen />;
+      return (
+        <div className="site-stack">
+          <ReasoningPanel variant="live" steps={sampleSteps} />
+          <ReasoningPanel variant="collapsed" steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))} totalDuration={7.1} defaultOpen />
+        </div>
+      );
     case "aibadge":
       return (
         <div className="site-row">
@@ -146,17 +151,17 @@ function renderPreview(id: string): ReactNode {
       return (
         <SuggestionCard
           variant="diff-card"
-          before="Patient should be given Protocol A treatment per standard procedure."
-          after="Patient should receive Protocol B, which reduces treatment time by 30% based on 847 comparable cases."
+          before="Invoice #1043 — 12 hrs at the standard $120/hr rate. Total $1,440.00."
+          after="Invoice #1043 — 12 hrs at the contract v4 rate of $145/hr, effective March 1. Total $1,740.00."
         />
       );
     case "response-actions":
-      return <ResponseActions variant="bar" onAccept={() => {}} onDismiss={() => {}} onCopy={() => {}} />;
+      return <ResponseActions variant="bar" onCopy={() => {}} onRetry={() => {}} onGood={() => {}} onBad={() => {}} />;
     case "agent-status":
       return (
         <div className="site-stack">
-          <AgentStatus state="working" label="Cross-referencing 3 contracts..." elapsed={12} />
-          <AgentStatus state="needs-input" label="Confirm the reprice before sending" />
+          <AgentStatus state="working" label="Repricing 3 invoices to the contract v4 rate" elapsed={12} />
+          <AgentStatus state="needs-input" label="Confirm the reprice before invoices are sent" />
           <AgentStatus state="done" label="Repriced 3 invoices" />
           <div className="site-row">
             <AgentStatus variant="pill" state="working" label="Working" />
