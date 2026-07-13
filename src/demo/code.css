@@ -1,0 +1,111 @@
+/* Code blocks — dark panel, monochrome syntax, theme-independent */
+
+.code-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  max-width: 100%;
+  border: 1px solid var(--c-code-border);
+  border-radius: var(--r-md);
+  background: var(--c-code-bg);
+  padding: 4px 4px 4px 12px;
+}
+
+.code-inline-text {
+  font-size: var(--text-caption);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-normal);
+  color: var(--gray-300);
+  white-space: nowrap;
+  overflow-x: auto;
+  letter-spacing: -0.01em;
+}
+
+.code-block {
+  position: relative;
+  border: 1px solid var(--c-code-border);
+  border-radius: var(--r-lg);
+  background: var(--c-code-bg);
+  overflow: hidden;
+}
+
+.code-pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 12.5px;
+  line-height: 1.7;
+  font-family: var(--font-mono);
+  font-weight: var(--weight-normal);
+  letter-spacing: -0.01em;
+  background: transparent;
+}
+
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    opacity var(--t-fast) var(--ease-out);
+}
+
+.code-copy-btn--inline {
+  flex-shrink: 0;
+  color: var(--gray-500);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-sm);
+  padding: 4px 8px;
+}
+
+.code-copy-btn--inline:hover {
+  color: var(--gray-300);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.code-copy-btn--block {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  color: var(--gray-500);
+  background: var(--c-code-btn-bg);
+  border: 1px solid var(--c-code-btn-border);
+  border-radius: var(--r-sm);
+  padding: 4px 8px;
+  opacity: 0;
+}
+
+.code-block:hover .code-copy-btn--block,
+.code-copy-btn--block:focus-visible {
+  opacity: 1;
+}
+
+.code-copy-btn--block:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gray-300);
+}
+
+@media (max-width: 560px) {
+  .code-pre {
+    font-size: 12px;
+    padding: 12px 14px;
+  }
+
+  .code-copy-btn--block {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-copy-btn {
+    transition: none;
+  }
+}

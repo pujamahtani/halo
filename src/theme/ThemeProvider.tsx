@@ -52,14 +52,14 @@ export interface HaloTheme {
 
 export const defaultTheme: HaloTheme = {
   colors: {
-    text: "#0a0a0a",
-    textSecondary: "#525252",
-    textMuted: "#737373",
+    text: "#09090b",
+    textSecondary: "#52525b",
+    textMuted: "#71717a",
     background: "#ffffff",
     surface: "#fafafa",
-    surfaceRaised: "#f5f5f5",
-    border: "#e5e5e5",
-    borderStrong: "#d4d4d4",
+    surfaceRaised: "#f4f4f5",
+    border: "#e4e4e7",
+    borderStrong: "#d4d4d8",
     success: "#22c55e",
     warning: "#f59e0b",
     error: "#ef4444",
@@ -70,21 +70,21 @@ export const defaultTheme: HaloTheme = {
     lg: "8px",
   },
   font: {
-    sans: "'Inter', system-ui, -apple-system, sans-serif",
-    mono: "ui-monospace, 'SF Mono', monospace",
+    sans: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    mono: "ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace",
   },
 };
 
 export const darkTheme: HaloTheme = {
   colors: {
     text: "#fafafa",
-    textSecondary: "#a3a3a3",
-    textMuted: "#6f6f6f",
-    background: "#0b0b0c",
-    surface: "#161618",
-    surfaceRaised: "#202023",
-    border: "#2a2a2e",
-    borderStrong: "#3a3a40",
+    textSecondary: "#a1a1aa",
+    textMuted: "#71717a",
+    background: "#09090b",
+    surface: "#18181b",
+    surfaceRaised: "#27272a",
+    border: "#27272a",
+    borderStrong: "#3f3f46",
     success: "#4ade80",
     warning: "#fbbf24",
     error: "#f87171",
