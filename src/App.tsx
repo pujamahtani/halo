@@ -17,7 +17,7 @@ import { SECTIONS, V2_ITEMS } from "./demo/registry";
 import {
   Sun, Moon, Package, LayoutGrid, Rocket,
   ArrowLeftRight, Network, Gauge, Smartphone, Sparkles,
-  CircleDot, BadgeCheck,
+  BadgeCheck,
 } from "lucide-react";
 import "./demo/site.css";
 
@@ -190,14 +190,6 @@ function GithubMark({ size = ICON }: { size?: number }) {
   );
 }
 
-function Logo({ dark }: { dark: boolean }) {
-  return (
-    <div className="site-logo">
-      <CircleDot size={11} color={dark ? "#09090b" : "#ffffff"} strokeWidth={2.5} aria-hidden="true" />
-    </div>
-  );
-}
-
 function Sidebar({ activeId }: { activeId: string }) {
   return (
     <nav className="site-sidebar" aria-label="Components">
@@ -254,7 +246,6 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
       <header className="site-header">
         <div className="site-header-inner">
           <div className="site-brand">
-            <Logo dark={dark} />
             <span className="site-name">Halo</span>
             <span className="site-version">v0.2.0</span>
           </div>
