@@ -275,22 +275,28 @@ function Site({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
 
         <main className="site-main">
           <header className="site-hero">
-            <h1>A trust layer for AI interfaces</h1>
-            <p className="site-hero-desc">
-              Twelve React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.
-            </p>
-            <div className="site-hero-install">
-              <CodeBlock code="npm i @pujamahtani/halo" inline dark={dark} />
+            <div className="site-hero-content">
+              <h1>A trust layer for AI interfaces</h1>
+              <p className="site-hero-desc">
+                Twelve React components that help people understand, verify, and control AI as it works and acts inside a product, not just inside a chat.
+              </p>
+              <div className="site-hero-install">
+                <CodeBlock code="npm i @pujamahtani/halo" inline dark={dark} />
+              </div>
+              <div className="site-hero-actions">
+                <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="site-btn site-btn-primary">
+                  <GithubMark size={ICON} />
+                  View on GitHub
+                </a>
+                <a href="#confidence" className="site-btn site-btn-secondary">
+                  <LayoutGrid size={ICON} strokeWidth={STROKE} />
+                  Browse components
+                </a>
+              </div>
             </div>
-            <div className="site-hero-actions">
-              <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="site-btn site-btn-primary">
-                <GithubMark size={ICON} />
-                View on GitHub
-              </a>
-              <a href="#confidence" className="site-btn site-btn-secondary">
-                <LayoutGrid size={ICON} strokeWidth={STROKE} />
-                Browse components
-              </a>
+            <div className="site-hero-showcase">
+              <span className="site-hero-showcase-label">Live component</span>
+              <ApprovalGateDemo />
             </div>
           </header>
 
