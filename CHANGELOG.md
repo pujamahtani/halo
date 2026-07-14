@@ -3,6 +3,12 @@
 All notable changes to Halo are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **BREAKING:** Renamed `ReasoningPanel` to `ExecutionTrace` (and `ReasoningStep` to `ExecutionStep`, `ReasoningPanelProps` to `ExecutionTraceProps`). The component surfaces observable agent steps, not internal model reasoning. Collapsed summary copy is now "Ran for Xs" instead of "Thought for Xs".
+
 ## [0.2.0]
 
 ### Added

@@ -1,4 +1,4 @@
-import { Check, CircleCheck, CircleX, Shield } from "lucide-react";
+import { CircleCheck, CircleX, Shield } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -247,9 +247,9 @@ export function ApprovalGate({
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget;
-                el.style.backgroundColor = `${theme.colors.error}0a`;
-                el.style.borderColor = `${theme.colors.error}44`;
-                el.style.color = theme.colors.error;
+                el.style.backgroundColor = theme.colors.surfaceRaised;
+                el.style.borderColor = theme.colors.borderStrong;
+                el.style.color = theme.colors.text;
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget;
@@ -262,24 +262,20 @@ export function ApprovalGate({
             </button>
             <button
               type="button"
-              className="halo-btn-success"
+              className="halo-btn-primary"
               onClick={onApprove}
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
                 fontSize: "13px",
                 fontWeight: 550,
-                color: "#ffffff",
-                backgroundColor: theme.colors.success,
-                border: `1px solid ${theme.colors.success}`,
+                color: theme.colors.background,
+                backgroundColor: theme.colors.text,
+                border: `1px solid ${theme.colors.text}`,
                 borderRadius: theme.radius.md,
                 padding: "6px 14px",
                 cursor: "pointer",
                 fontFamily: theme.font.sans,
               }}
             >
-              <Check size={14} strokeWidth={2} aria-hidden="true" />
               {approveLabel}
             </button>
           </>

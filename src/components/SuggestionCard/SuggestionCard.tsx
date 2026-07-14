@@ -307,7 +307,7 @@ function DiffCardVariant({
   after: string;
   theme: ReturnType<typeof useHaloTheme>;
 }) {
-  const pill = (label: string, tone: "muted" | "success") => ({
+  const pill = () => ({
     display: "inline-block" as const,
     fontSize: "10px",
     fontWeight: 600,
@@ -316,17 +316,9 @@ function DiffCardVariant({
     padding: "2px 8px",
     borderRadius: "999px",
     marginBottom: "10px",
-    ...(tone === "muted"
-      ? {
-          color: theme.colors.textMuted,
-          backgroundColor: theme.colors.surfaceRaised,
-          border: `1px solid ${theme.colors.border}`,
-        }
-      : {
-          color: theme.colors.success,
-          backgroundColor: `${theme.colors.success}14`,
-          border: `1px solid ${theme.colors.success}33`,
-        }),
+    color: theme.colors.textMuted,
+    backgroundColor: theme.colors.surfaceRaised,
+    border: `1px solid ${theme.colors.border}`,
   });
 
   return (
@@ -347,7 +339,7 @@ function DiffCardVariant({
           backgroundColor: theme.colors.background,
         }}
       >
-        <span style={pill("Current", "muted")}>Current</span>
+        <span style={pill()}>Current</span>
         <div
           style={{
             fontSize: "13px",
@@ -376,11 +368,14 @@ function DiffCardVariant({
         style={{
           padding: "14px",
           borderRadius: theme.radius.md,
-          border: `1px solid ${theme.colors.success}40`,
-          backgroundColor: `${theme.colors.success}0a`,
+          borderTop: `1px solid ${theme.colors.border}`,
+          borderRight: `1px solid ${theme.colors.border}`,
+          borderBottom: `1px solid ${theme.colors.border}`,
+          borderLeft: `3px solid ${theme.colors.textMuted}`,
+          backgroundColor: theme.colors.background,
         }}
       >
-        <span style={pill("Suggested", "success")}>Suggested</span>
+        <span style={pill()}>Suggested</span>
         <div
           style={{
             fontSize: "13px",

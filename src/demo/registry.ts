@@ -45,10 +45,10 @@ export const SECTIONS: PillarSection[] = [
 />`,
       },
       {
-        id: "reasoning",
-        name: "ReasoningPanel",
-        blurb: "The AI's step-by-step thinking. Live while it works, collapsed once done, or as raw generated output.",
-        code: `<ReasoningPanel
+        id: "execution-trace",
+        name: "ExecutionTrace",
+        blurb: "The agent's step-by-step execution. Live while it runs, collapsed once done, or as raw output.",
+        code: `<ExecutionTrace
   variant="collapsed"
   steps={steps}
   totalDuration={7.1}

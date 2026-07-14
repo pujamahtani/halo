@@ -7,8 +7,8 @@ export type { ConfidenceIndicatorProps, ConfidenceDimension } from "./Confidence
 export { SourceCitation } from "./SourceCitation/SourceCitation";
 export type { SourceCitationProps, Source } from "./SourceCitation/SourceCitation";
 
-export { ReasoningPanel } from "./ReasoningPanel/ReasoningPanel";
-export type { ReasoningPanelProps, ReasoningStep } from "./ReasoningPanel/ReasoningPanel";
+export { ExecutionTrace } from "./ExecutionTrace/ExecutionTrace";
+export type { ExecutionTraceProps, ExecutionStep } from "./ExecutionTrace/ExecutionTrace";
 
 export { SuggestionCard } from "./SuggestionCard/SuggestionCard";
 export type { SuggestionCardProps, TextDiff } from "./SuggestionCard/SuggestionCard";

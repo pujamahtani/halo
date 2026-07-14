@@ -3,7 +3,7 @@ import { HaloProvider, defaultTheme, darkTheme } from "./theme/ThemeProvider";
 import { AIBadge } from "./components/AIBadge/AIBadge";
 import { ConfidenceIndicator } from "./components/ConfidenceIndicator/ConfidenceIndicator";
 import { SourceCitation } from "./components/SourceCitation/SourceCitation";
-import { ReasoningPanel } from "./components/ReasoningPanel/ReasoningPanel";
+import { ExecutionTrace } from "./components/ExecutionTrace/ExecutionTrace";
 import { SuggestionCard } from "./components/SuggestionCard/SuggestionCard";
 import { ResponseActions } from "./components/ResponseActions/ResponseActions";
 import { ApprovalGate, type ApprovalStatus } from "./components/ApprovalGate/ApprovalGate";
@@ -124,11 +124,11 @@ function renderPreview(id: string): ReactNode {
       );
     case "sources":
       return <SourceCitation sources={sampleSources} variant="panel" />;
-    case "reasoning":
+    case "execution-trace":
       return (
         <div className="site-stack">
-          <ReasoningPanel variant="live" steps={sampleSteps} />
-          <ReasoningPanel variant="collapsed" steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))} totalDuration={7.1} defaultOpen />
+          <ExecutionTrace variant="live" steps={sampleSteps} />
+          <ExecutionTrace variant="collapsed" steps={sampleSteps.map((s) => ({ ...s, status: "complete" as const, duration: s.duration || 1.5 }))} totalDuration={7.1} defaultOpen />
         </div>
       );
     case "aibadge":

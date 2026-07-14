@@ -64,7 +64,7 @@ export function ReviewStep() {
 |---|---|
 | `ConfidenceIndicator` | How confident the model is: a score, a multi-dimension breakdown, an inline pill, or a plain disclaimer. |
 | `SourceCitation` | Where an answer came from: inline superscripts, a count pill, or a full source panel. |
-| `ReasoningPanel` | The model's step-by-step thinking, shown live, collapsed, or as raw output. |
+| `ExecutionTrace` | The agent's step-by-step execution, shown live, collapsed, or as raw output. |
 | `AIBadge` | Marks content as AI-generated, AI-assisted, or human-verified, with optional processing time. |
 
 ### Generation

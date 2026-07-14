@@ -12,9 +12,6 @@ const BASE_CSS = `
 .halo-btn-primary{transition:opacity .15s ease, transform .08s ease}
 .halo-btn-primary:hover{opacity:.88}
 .halo-btn-primary:active{transform:scale(0.98);opacity:.95}
-.halo-btn-success{transition:opacity .15s ease, transform .08s ease, filter .15s ease}
-.halo-btn-success:hover{opacity:.92}
-.halo-btn-success:active{transform:scale(0.98);opacity:.95}
 .halo-btn-outline{transition:background-color .15s ease, border-color .15s ease, transform .08s ease}
 .halo-btn-outline:active{transform:scale(0.98)}
 .halo-btn-link{transition:color .15s ease}
@@ -34,7 +31,7 @@ animation:halo-shimmer-text 1.6s linear infinite;
 @keyframes halo-pulse-soft{0%,100%{opacity:1}50%{opacity:.45}}
 @media (prefers-reduced-motion: reduce){
 .halo-anim{animation:none !important}
-.halo-btn,.halo-btn-primary,.halo-btn-outline,.halo-btn-link,.halo-btn-success{transition:none}
+.halo-btn,.halo-btn-primary,.halo-btn-outline,.halo-btn-link{transition:none}
 .halo-shimmer{animation:none;background:none;-webkit-text-fill-color:var(--halo-shimmer-hi);color:var(--halo-shimmer-hi)}
 }
 `;

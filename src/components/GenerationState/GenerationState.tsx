@@ -104,19 +104,31 @@ export function GenerationState({
       {onRetry && (
         <button
           type="button"
-          className="halo-btn"
+          className="halo-btn-outline"
           onClick={onRetry}
           style={{
             flexShrink: 0,
             fontSize: "12.5px",
             fontWeight: 550,
-            color: theme.colors.text,
+            color: theme.colors.textSecondary,
             backgroundColor: theme.colors.background,
             border: `1px solid ${theme.colors.border}`,
             borderRadius: theme.radius.sm,
             padding: "5px 12px",
             cursor: "pointer",
             fontFamily: theme.font.sans,
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget;
+            el.style.backgroundColor = theme.colors.surfaceRaised;
+            el.style.borderColor = theme.colors.borderStrong;
+            el.style.color = theme.colors.text;
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget;
+            el.style.backgroundColor = theme.colors.background;
+            el.style.borderColor = theme.colors.border;
+            el.style.color = theme.colors.textSecondary;
           }}
         >
           {retryLabel}

@@ -3,16 +3,16 @@ import { Check, LoaderCircle, Clock, ChevronRight, Copy } from "lucide-react";
 import { useHaloTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
-export interface ReasoningStep {
+export interface ExecutionStep {
   label: string;
   description?: string;
   status: "complete" | "active" | "pending";
   duration?: number;
 }
 
-export interface ReasoningPanelProps {
+export interface ExecutionTraceProps {
   variant?: "live" | "collapsed" | "raw";
-  steps?: ReasoningStep[];
+  steps?: ExecutionStep[];
   title?: string;
   rawContent?: string;
   rawLabel?: string;
@@ -60,7 +60,7 @@ function LiveVariant({
   steps,
   theme,
 }: {
-  steps: ReasoningStep[];
+  steps: ExecutionStep[];
   theme: ReturnType<typeof useHaloTheme>;
 }) {
   return (
@@ -92,7 +92,7 @@ function LiveVariant({
             ["--halo-shimmer-hi"]: theme.colors.text,
           } as CSSProperties}
         >
-          Thinking
+          Running
         </span>
       </div>
 
@@ -159,7 +159,7 @@ function CollapsedVariant({
   defaultOpen,
   theme,
 }: {
-  steps: ReasoningStep[];
+  steps: ExecutionStep[];
   totalDuration?: number;
   defaultOpen?: boolean;
   theme: ReturnType<typeof useHaloTheme>;
@@ -198,8 +198,8 @@ function CollapsedVariant({
         <ChevronIcon open={open} color={theme.colors.textMuted} />
         <span style={{ fontWeight: 500 }}>
           {totalDuration !== undefined
-            ? `Thought for ${totalDuration.toFixed(1)}s`
-            : "Show reasoning"}
+            ? `Ran for ${totalDuration.toFixed(1)}s`
+            : "Show trace"}
         </span>
         {totalDuration !== undefined && stepCount > 0 && (
           <span style={{ marginLeft: "auto", fontSize: "11px", fontVariantNumeric: "tabular-nums" }}>
@@ -328,7 +328,7 @@ function RawVariant({
   );
 }
 
-export function ReasoningPanel({
+export function ExecutionTrace({
   variant = "live",
   steps = [],
   title,
@@ -337,11 +337,11 @@ export function ReasoningPanel({
   totalDuration,
   defaultOpen,
   className,
-}: ReasoningPanelProps) {
+}: ExecutionTraceProps) {
   const theme = useHaloTheme();
 
   return (
-    <div className={cn("halo-reasoning", className)} role={title ? "region" : undefined} aria-label={title}>
+    <div className={cn("halo-execution-trace", className)} role={title ? "region" : undefined} aria-label={title}>
       {variant === "live" && <LiveVariant steps={steps} theme={theme} />}
       {variant === "collapsed" && (
         <CollapsedVariant
