@@ -58,6 +58,7 @@
     "react-dom": ">=18"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.24.0"
   },

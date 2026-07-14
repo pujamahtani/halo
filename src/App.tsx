@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { HaloProvider, defaultTheme, darkTheme } from "./theme/ThemeProvider";
 import { AIBadge } from "./components/AIBadge/AIBadge";
 import { ConfidenceIndicator } from "./components/ConfidenceIndicator/ConfidenceIndicator";
@@ -392,6 +393,7 @@ function App() {
   return (
     <HaloProvider theme={dark ? darkTheme : defaultTheme}>
       <Site dark={dark} onToggle={() => setDark((d) => !d)} />
+      <Analytics />
     </HaloProvider>
   );
 }
